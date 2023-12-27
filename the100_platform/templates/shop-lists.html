@@ -191,7 +191,7 @@
                                         <div class="col-lg-4 col-md-6">
                                             <div class="shop-image position-relative overflow-hidden">
 
-                                                <a href="shop-product-detail.html"><img src="/media/{{item.images.0.image}}" class="img-fluid" alt=""></a>
+                                                <a href="#"><img src="/media/{{item.images.0.image}}" class="img-fluid" alt=""></a>
                                                 <div class="overlay-work">
                                                     <div class="py-2 bg-soft-dark rounded-bottom out-stock">
                                                         <h6 class="mb-0 text-center">Out of stock</h6>
@@ -202,7 +202,7 @@
         
                                         <div class="col-lg-8 col-md-6">
                                             <div class="card-body content p-4">
-                                                <a href="{% url 'product_detail' item.id %}" class="text-dark product-name h6">{{item.name}}</a>
+                                                <a href="#" class="text-dark product-name h6">{{item.name}}</a>
                                                 <div class="d-lg-flex align-items-center mt-2 mb-3">
                                                     <h6 class="text-muted small fst-italic mb-0 me-3">{{item.drop_price|floatformat:2|intcomma}} VND <del class="text-danger ms-2">{{item.unit_price|floatformat:2|intcomma}} VND</del> </h6>
                                                     <ul class="list-unstyled text-warning mb-0">
