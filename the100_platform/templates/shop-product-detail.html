@@ -53,11 +53,10 @@
                 <div class="row align-items-center">
                     <div class="col-md-5">
                         <div class="tiny-single-item">
-                            <div class="tiny-slide"><img src="assets/images/shop/product/single-2.jpg" class="img-fluid rounded" alt=""></div>
-                            <div class="tiny-slide"><img src="assets/images/shop/product/single-3.jpg" class="img-fluid rounded" alt=""></div>
-                            <div class="tiny-slide"><img src="assets/images/shop/product/single-4.jpg" class="img-fluid rounded" alt=""></div>
-                            <div class="tiny-slide"><img src="assets/images/shop/product/single-5.jpg" class="img-fluid rounded" alt=""></div>
-                            <div class="tiny-slide"><img src="assets/images/shop/product/single-6.jpg" class="img-fluid rounded" alt=""></div>
+
+                            {% for image in product.images %}
+                            <div class="tiny-slide"><img src="/media/{{image.image}}" class="img-fluid rounded" alt=""></div>
+                            {% endfor %}
                         </div>
                     </div><!--end col-->
 
