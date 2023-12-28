@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -46,6 +46,7 @@ def signup(request):
         return redirect('index')  # Replace with the actual URL name or path
     return render(request, template_name='auth-signup.html')
 
+
 def user_logout(request):
     logout(request)
     return redirect('index')
@@ -53,6 +54,21 @@ def user_logout(request):
 
 def reset(request):
     return render(request, template_name='auth-bs-reset.html')
+
+
+def update_account(request):
+    if request.method == 'POST':
+        print('==========================')
+
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+
+        user = get_object_or_404(User, pk=request.user.id)
+        user.first_name = first_name
+        user.last_name = last_name
+
+        user.save()
+        return redirect('account')
 
 
 def account(request):
