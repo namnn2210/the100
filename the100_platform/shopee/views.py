@@ -12,11 +12,11 @@ def shop_auth(request):
     if request.method == 'POST':
 
         timest = int(time.time())
-        host = "https://partner.test-stable.shopeemobile.com"
+        host = "https://partner.shopeemobile.com"
         path = "/api/v2/shop/auth_partner"
-        redirect_url = "http://127.0.0.1:8000/authentication/account"
-        partner_id = 1007418
-        partner_key = b'5547537971494a4968454b694f6e6a595a6d4f526864525853634e5070664d47'
+        redirect_url = "http://0.0.0.0:8000/authentication/account"
+        partner_id = 2005954
+        partner_key = b'555253654474564e6a77526a714c6f73616453426a636c6a7a62696f5a6d7151'
         tmp_base_string = "%s%s%s" % (partner_id, path, timest)
         base_string = tmp_base_string.encode()
         sign = hmac.new(partner_key, base_string, hashlib.sha256).hexdigest()
