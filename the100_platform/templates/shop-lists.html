@@ -202,9 +202,9 @@
         
                                         <div class="col-lg-8 col-md-6">
                                             <div class="card-body content p-4">
-                                                <a href="#" class="text-dark product-name h6">{{item.name}}</a>
+                                                <a href="{% url 'product_detail' item.id %}" class="text-dark product-name h6">{{item.name}}</a>
                                                 <div class="d-lg-flex align-items-center mt-2 mb-3">
-                                                    <h6 class="text-muted small fst-italic mb-0 me-3">{{item.drop_price|floatformat:2|intcomma}} VND <del class="text-danger ms-2">{{item.unit_price|floatformat:2|intcomma}} VND</del> </h6>
+                                                    <h6 class="text-muted small fst-italic mb-0 me-3">Giá bán: {{item.unit_price|floatformat:2|intcomma}} VND </h6>
                                                     <ul class="list-unstyled text-warning mb-0">
                                                         <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
                                                         <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
@@ -213,7 +213,10 @@
                                                         <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
                                                     </ul>
                                                 </div>
-                                                <p class="para-desc text-muted mb-1">This is required when, for example, the final text is not yet available. Dummy text is also known as 'fill text'.</p>
+                                                <div class="d-lg-flex align-items-center mt-2 mb-3">
+                                                    <h6 class="text-danger">Giá cung cấp: {{item.drop_price|floatformat:2|intcomma}} VND</h6>
+                                                </div>
+                                                <p class="para-desc text-muted mb-1">{{item.description}}</p>
                                                 <ul class="list-unstyled mb-0">
                                                     <li class="list-inline-item"><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="heart" class="icons"></i></a></li>
                                                     <li class="mt-2 list-inline-item"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>

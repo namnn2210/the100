@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'categories',
     'orders',
     'suppliers',
-    'product_images'
+    'product_images',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -147,5 +148,12 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
     'http://103.241.43.112:8000',
 ]
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': 800,
+    'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat',
+    'plugins': 'advlist autolink lists link image charmap print preview anchor',
+}
 
 LOGOUT_REDIRECT_URL = '/'

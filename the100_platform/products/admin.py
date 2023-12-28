@@ -2,6 +2,18 @@ from django.contrib import admin
 from .models import Product
 from product_images.models import ProductImage  # Import your models
 from django.utils.html import format_html
+from tinymce.widgets import TinyMCE
+from django import forms
+
+
+class ProductAdminForm(forms.ModelForm):
+    class Meta:
+        model = Product  # Replace with your actual model name
+        fields = ['name', 'description', 'content', 'supplier', 'category', 'unit_price',
+                  'drop_price', 'status']
+        widgets = {
+            'content': TinyMCE(attrs={'cols': 80, 'rows': 30}),
+        }
 
 
 class ProductImageInline(admin.TabularInline):  # You can also use admin.StackedInline for a different display style
@@ -12,9 +24,11 @@ class ProductImageInline(admin.TabularInline):  # You can also use admin.Stacked
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
+    form = ProductAdminForm
 
     list_display = (
-        'name', 'description', 'display_images', 'supplier', 'category', 'unit_price', 'drop_price', 'status', 'created_at',
+        'name', 'description', 'display_images', 'supplier', 'category', 'unit_price', 'drop_price', 'status',
+        'created_at',
         'updated_at')
 
     def display_images(self, obj):
@@ -29,7 +43,6 @@ class ProductAdmin(admin.ModelAdmin):
 
     list_filter = ('name', 'supplier', 'category', 'unit_price', 'drop_price',)
     search_fields = ('name',)
-
 
 # Register your models and admin classes
 # admin.site.register(Product, ProductAdmin)

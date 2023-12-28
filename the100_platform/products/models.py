@@ -7,6 +7,7 @@ import random
 class Product(models.Model):
     name = models.TextField(null=False)
     description = models.TextField(null=False)
+    content = models.TextField(null=True)
     # images = models.ImageField(upload_to='product_images')
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, null=True, related_name='supplier')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name='category')
