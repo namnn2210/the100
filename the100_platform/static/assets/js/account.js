@@ -30,6 +30,6 @@ document.getElementById('shop-auth').onsubmit = function(event) {
         })
         .then(response => response.json())
         .then(data => {
-            window.open(data.url, "popupWindow", "width=600,height=400,scrollbars=yes");
+            window.open(data.url, "popupWindow");
         });
     };
