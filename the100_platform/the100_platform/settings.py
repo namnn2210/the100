@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'suppliers',
     'product_images',
     'tinymce',
+    'shopee'
 ]
 
 MIDDLEWARE = [
@@ -159,3 +160,9 @@ TINYMCE_DEFAULT_CONFIG = {
 }
 
 LOGOUT_REDIRECT_URL = '/'
+
+PARTNER_ID = 2005954
+LIVE_KEY = b'555253654474564e6a77526a714c6f73616453426a636c6a7a62696f5a6d7151'
+SHOP_AUTH_HOST = "https://partner.shopeemobile.com"
+SHOP_AUTH_PATH = "/api/v2/shop/auth_partner"
+SHOP_AUTH_REDIRECT_URL = "http://0.0.0.0:8000/authentication/account"
