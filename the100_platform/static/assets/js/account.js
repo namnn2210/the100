@@ -16,17 +16,17 @@ function getCookie(name) {
 document.getElementById('shop-auth').onsubmit = function(event) {
         event.preventDefault();
         const csrftoken = getCookie('csrftoken');
-        var shopId = document.getElementById('shopId').value;
-        console.log(shopId)
-        var dataToSend = {
-            'shopId': shopId
-        };
+//        var shopId = document.getElementById('shopId').value;
+//        console.log(shopId)
+//        var dataToSend = {
+//            'shopId': shopId
+//        };
         fetch("/shopee/shop_auth/", {
             method: 'POST',
             headers: {
                 "X-CSRFToken": csrftoken // Include CSRF token in headers
             },
-            body: JSON.stringify(dataToSend),
+//            body: JSON.stringify(dataToSend),
         })
         .then(response => response.json())
         .then(data => {
