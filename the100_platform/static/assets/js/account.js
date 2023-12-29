@@ -13,7 +13,7 @@ function getCookie(name) {
         return cookieValue;
     };
 
-document.getElementById('shop-auth').onsubmit = function(event) {
+document.getElementById('shop-auth-btn').onclick = function(event) {
         event.preventDefault();
         const csrftoken = getCookie('csrftoken');
 //        var shopId = document.getElementById('shopId').value;
