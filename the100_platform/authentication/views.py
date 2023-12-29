@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from urllib.parse import urlparse, parse_qs
-
+from shopee.models import ShopAuth, ShopAccessToken
 from shopee.views import get_token_shop_level
 
 
@@ -100,11 +100,33 @@ def extract_parameters(uri):
 
 
 def account(request):
+    shop_auth_successful = False
     request_uri = request.build_absolute_uri()
     if has_query_parameters(request_uri):
         code, shop_id = extract_parameters(request_uri)
-        access_token, new_refresh_token = get_token_shop_level(code=code, shop_id=shop_id)
-        request.session['access_token'] = access_token
-        request.session['new_refresh_token'] = new_refresh_token
-        render(request, template_name='shop-myaccount.html')
-    return render(request, template_name='shop-myaccount.html')
+        try:
+            get_object_or_404(ShopAuth, user=request.user)
+        except Exception as ex:
+            # Add authorization code to db
+            shop_auth = ShopAuth(user=request.user, code=code, shop_id=shop_id)
+            shop_auth.save()
+
+            # Get access token and add to db
+
+            try:
+                get_object_or_404(ShopAccessToken, user=request.user)
+            except Exception as ex:
+                access_token, refresh_token = get_token_shop_level(code=code, shop_id=shop_id)
+                print('==================', access_token, refresh_token)
+                shop_access_token = ShopAccessToken(user=request.user, access_token=access_token,
+                                                    refresh_token=refresh_token)
+                shop_access_token.save()
+
+                shop_auth_successful = True
+        render(request, template_name='shop-myaccount.html', context={'shop_auth_successful': shop_auth_successful})
+    try:
+        get_object_or_404(ShopAuth, user=request.user)
+        shop_auth_successful = True
+    except Exception as ex:
+        pass
+    return render(request, template_name='shop-myaccount.html', context={'shop_auth_successful': shop_auth_successful})
