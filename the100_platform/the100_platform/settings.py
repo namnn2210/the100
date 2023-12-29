@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-w66ljarm3jh7v8^^r7kan2#q+zdfv((_-95p3cm2keb-qt%i$7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '127.0.0.1', '0.0.0.0', '103.241.43.112']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', '103.241.43.112', 'https://the100.vn/', 'the100.vn', 'www.the100.vn']
 
 # Application definition
 
@@ -141,12 +141,14 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     "http://localhost:8000",
     "http://103.241.43.112:8000"
+    'https://the100.vn'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     "http://localhost:8000",
     'http://103.241.43.112:8000',
+    'https://the100.vn'
 ]
 
 TINYMCE_DEFAULT_CONFIG = {
