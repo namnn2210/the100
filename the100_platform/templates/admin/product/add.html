@@ -1,0 +1,142 @@
+{% include  'admin/partials/main.html' %}
+{% load static %}
+
+
+<head>
+    {% include 'admin/partials/title-meta.html' %}
+    <!-- Css -->
+    <link href="{% static 'admin/assets/libs/simplebar/simplebar.min.css' %}" rel="stylesheet">
+     <link href="{% static 'admin/assets/css/add_product.css' %}" rel="stylesheet">
+    {% include 'admin/partials/head-css.html' %}
+
+</head>
+
+{% include 'admin/partials/body.html' %}
+
+<div class="page-wrapper toggled">
+    {% include 'admin/partials/sidebar-dark.html' %}
+
+    <!-- Start Page Content -->
+    <main class="page-content bg-light">
+        {% include 'admin/partials/top-header.html' %}
+
+        <div class="container-fluid">
+            <div class="layout-specing">
+                <div class="d-md-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Thêm danh mục mới</h5>
+
+                    <nav aria-label="breadcrumb" class="d-inline-block mt-2 mt-sm-0">
+                        <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
+                            <li class="breadcrumb-item text-capitalize"><a href="{% url 'admin_index' %}">The100</a>
+                            </li>
+                            <li class="breadcrumb-item text-capitalize active" aria-current="page">Thêm danh mục mới
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label">Hình ảnh sản phẩm <span class="text-danger">*</span></label>
+                            <div class="form-icon position-relative">
+                                <i data-feather="image" class="fea icon-sm icons"></i>
+                                <input name="images[]" id="images" type="file" class="form-control-file ps-5" multiple>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label">Tên sản phẩm <span class="text-danger">*</span></label>
+                            <div class="form-icon position-relative">
+                                <i data-feather="mail" class="fea icon-sm icons"></i>
+                                <input name="name" id="name" type="text" class="form-control ps-5"
+                                       placeholder="Tên sản phẩm">
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label">Ngành hàng</label>
+                            <div class="form-icon position-relative">
+                                <i data-feather="book" class="fea icon-sm icons"></i>
+                                <input data-bs-toggle="modal" data-bs-target="#LoginForm" name="category" id="category"
+                                       class="form-control ps-5"
+                                       placeholder="Chọn ngành hàng" readonly>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label">Mô tả sản phẩm</label>
+                            <div class="form-icon position-relative">
+                                <i data-feather="message-circle" class="fea icon-sm icons"></i>
+                                <textarea name="description" id="description" rows="4" class="form-control ps-5"
+                                          placeholder="Mô tả sản phẩm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--end row-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input type="submit" id="submit" name="send" class="btn btn-primary" value="Send Message">
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
+            <div class="modal fade" id="LoginForm" tabindex="-1" aria-labelledby="LoginForm-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content rounded shadow border-0">
+                        <div class="modal-header border-bottom">
+                            <h5 class="modal-title" id="LoginForm-title">Chỉnh sửa ngành hàng</h5>
+                            <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal"
+                                    id="close-modal"><i class="uil uil-times fs-4 text-dark"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="p-3 rounded box-shadow">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <ul class="list-unstyled scrollable-list">
+                                            {% for category in list_categories%}
+                                                <li>
+                                                    <span onclick="chooseCategory({{category.id}}, 'children-1')">{{category.display_category_name}}</span>
+                                                    {% if category.has_children%}
+                                                        <span class="category-item-right"> > </span>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3 children-1"></div>
+                                    <div class="col-md-3 children-2"></div>
+                                    <div class="col-md-3 children-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <span>Đã chọn: </span>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--end container-->
+
+        {% include 'admin/partials/footer.html' %}
+    </main>
+    <!--End page-content" -->
+</div>
+<!-- page-wrapper -->
+
+{% include 'admin/partials/offcanvas-right.html' %}
+
+<!-- javascript -->
+{% include 'admin/partials/vendor-scripts.html' %}
+<script src="{% static 'admin/assets/libs/simplebar/simplebar.min.js' %}"></script>
+<!-- Main Js -->
+<script src="{% static 'admin/assets/js/plugins.init.js' %}"></script>
+<script src="{% static 'admin/assets/js/app.js' %}"></script>
+<script src="{% static 'admin/assets/js/add_product.js' %}"></script>
+</body>
+
+</html>
