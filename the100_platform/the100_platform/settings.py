@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'suppliers',
     'product_images',
     'tinymce',
-    'shopee'
+    'shopee',
+    'custom_admin'
 ]
 
 MIDDLEWARE = [
