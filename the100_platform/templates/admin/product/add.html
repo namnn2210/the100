@@ -98,7 +98,7 @@
                                         <ul class="list-unstyled scrollable-list">
                                             {% for category in list_categories%}
                                                 <li>
-                                                    <span onclick="chooseCategory({{category.id}}, 'children-1')">{{category.display_category_name}}</span>
+                                                    <span id="{{category.id}}" onclick="chooseCategory({{category.id}}, 'children-1','{{category.display_category_name}}')">{{category.display_category_name}}</span>
                                                     {% if category.has_children%}
                                                         <span class="category-item-right"> > </span>
                                                     {% endif %}
@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <span>Đã chọn: </span>
+                            <span id="chosenCategories">Đã chọn: </span>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary">Save changes</button>
                         </div>

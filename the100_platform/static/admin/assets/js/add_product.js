@@ -35,7 +35,8 @@ function populateList(categories, childrenClass) {
         // Add category name
         const spanName = document.createElement('span');
         spanName.textContent = category.fields.display_category_name;
-        spanName.setAttribute('onclick', `chooseCategory(${category.pk}, '${newChildren}')`);
+        spanName.setAttribute('id', `${category.pk}`)
+        spanName.setAttribute('onclick', `chooseCategory(${category.pk}, '${newChildren}', '${category.fields.display_category_name}')`);
         li.appendChild(spanName);
 
         // Check if the category has children and add an indicator
@@ -55,9 +56,20 @@ function populateList(categories, childrenClass) {
 }
 
 
-function chooseCategory(categoryId, children) {
+function chooseCategory(categoryId, children, displayName) {
     console.log(categoryId)
     const csrftoken = getCookie('csrftoken');
+    if (children == 'children-1') {
+        var chosenCategories = document.getElementById('chosenCategories')
+        chosenCategories.innerHTML = ''
+        chosenCategories.innerHTML = displayName
+    }
+    else {
+        console.log('hehe')
+        var chosenCategories = document.getElementById('chosenCategories').textContent
+        const newChosenCategories = chosenCategories + ' > ' + displayName
+        chosenCategories.innerHTML = newChosenCategories
+    }
     var dataToSend = {
         categoryId:categoryId
     }
