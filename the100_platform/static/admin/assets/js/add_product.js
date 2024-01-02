@@ -1,3 +1,5 @@
+var lastLevelCategory = 0
+
 function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -15,11 +17,9 @@ function getCookie(name) {
 function populateList(categories, childrenClass) {
     // Find the div in the DOM
     const div = document.querySelector('.' + childrenClass);
-    console.log(childrenClass)
     var number = childrenClass.split('-')[1]
     var new_number = parseInt(number) + 1
     var newChildren = 'children-'+new_number
-    console.log(newChildren)
     // Create a new 'ul' element
     const ul = document.createElement('ul');
     ul.className = 'list-unstyled scrollable-list'; // Add any classes you need for styling
@@ -57,7 +57,8 @@ function populateList(categories, childrenClass) {
 
 
 function chooseCategory(categoryId, children, displayName) {
-    console.log(categoryId)
+    lastLevelCategory = categoryId
+    console.log('Last level category: ', lastLevelCategory)
     const csrftoken = getCookie('csrftoken');
     if (children == 'children-1') {
         var chosenCategories = document.getElementById('chosenCategories')
@@ -65,7 +66,6 @@ function chooseCategory(categoryId, children, displayName) {
         chosenCategories.innerHTML = displayName
     }
     else {
-        console.log('hehe')
         var chosenCategories = document.getElementById('chosenCategories').textContent
         const newChosenCategories = chosenCategories + ' > ' + displayName
         chosenCategories.innerHTML = newChosenCategories
@@ -86,5 +86,30 @@ function chooseCategory(categoryId, children, displayName) {
             const categories = JSON.parse(data.categories);
             populateList(categories,children);
         })
+}
 
+function saveChoosenCategory() {
+    console.log('Submit category: ', lastLevelCategory)
+    const csrftoken = getCookie('csrftoken');
+    var dataToSend = {
+        categoryId:lastLevelCategory
+    }
+    fetch("/shopee/get_attributes/", {
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": csrftoken // Include CSRF token in headers
+            },
+            body: JSON.stringify(dataToSend),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log(data.data)
+        })
+}
+
+function quitModal() {
+    const modalForm = document.getElementById('LoginForm')
+    var modal = bootstrap.Modal.getInstance(modalForm)
+    modal.hide()
 }

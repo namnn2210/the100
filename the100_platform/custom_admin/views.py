@@ -30,8 +30,11 @@ def get_children(request):
         data = serializers.serialize('json', list_children_query)
         return JsonResponse({'categories': data}, safe=False)
 
+def get_product_attribute(request):
+    pass
 
 def add_product(request):
     list_categories = Category.objects.filter(status=1, parent_category_id=0).all()
     return render(request=request, template_name='admin/product/add.html',
                   context={'list_categories': list_categories})
+

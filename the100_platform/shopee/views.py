@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from .models import ShopAuth, ShopAccessToken
 from categories.models import Category
+from datetime import datetime, timedelta, timezone
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s')
 
@@ -25,6 +26,24 @@ def get_sign_with_access_token(partner_id, partner_key, path, timest, access_tok
     tmp_base_string = "%s%s%s%s%s" % (partner_id, path, timest, access_token, shop_id)
     base_string = tmp_base_string.encode()
     return hmac.new(partner_key, base_string, hashlib.sha256).hexdigest()
+
+
+def check_expired_access_token(request):
+    # Check if access_token is expired, if not, call refresh_token to get latest access_token
+    shop_access_token = ShopAccessToken.objects.get(user=request.user)
+    shop_auth_obj = ShopAuth.objects.get(user=request.user)
+    current_datetime = datetime.now(timezone.utc)
+    logging.info('Current datetime: %s' % current_datetime)
+    logging.info('DB datetime: %s ' % shop_access_token.updated_at)
+    time_difference = (current_datetime - shop_access_token.updated_at) / timedelta(hours=1)
+    if time_difference > 4:
+        new_access_token, new_refresh_token = get_refresh_token(shop_auth_obj.shop_id, shop_access_token.refresh_token)
+        shop_access_token.access_token = new_access_token
+        shop_access_token.refresh_token = new_refresh_token
+        shop_access_token.updated_at = current_datetime
+        shop_access_token.save()
+        return new_access_token, new_refresh_token
+    return shop_access_token.access_token, None
 
 
 def post_request(url, body):
@@ -64,7 +83,7 @@ def get_token_shop_level(code, shop_id):
     return access_token, new_refresh_token
 
 
-def refresh_token(shop_id, refresh_token):
+def get_refresh_token(shop_id, refresh_token):
     partner_id = settings.PARTNER_ID
     partner_key = settings.LIVE_KEY
     timest = int(time.time())
@@ -85,7 +104,7 @@ def get_categories(request):
         partner_id = settings.PARTNER_ID
         partner_key = settings.LIVE_KEY
         shop_id = ShopAuth.objects.get(user=request.user).shop_id
-        access_token = ShopAccessToken.objects.get(user=request.user).access_token
+        access_token, _ = check_expired_access_token(request)
         timest = int(time.time())
         host = settings.SHOP_AUTH_HOST
         path = settings.LIST_CATEGORIES
@@ -121,16 +140,19 @@ def push_categories(request):
 def get_attributes(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
+            category_id = json.loads(request.body.decode('utf-8')).get('categoryId')
+            # print(category_id)
             partner_id = settings.PARTNER_ID
             partner_key = settings.LIVE_KEY
             shop_id = ShopAuth.objects.get(user=request.user).shop_id
-            access_token = ShopAccessToken.objects.get(user=request.user).access_token
+            # access_token = ShopAccessToken.objects.get(user=request.user).access_token
+            access_token, _ = check_expired_access_token(request)
             timest = int(time.time())
             host = settings.SHOP_AUTH_HOST
             path = settings.LIST_ATTRIBUTES
             # body = {"shop_id": shop_id, "access_token": access_token, "partner_id": partner_id}
             sign = get_sign_with_access_token(partner_id, partner_key, path, timest, access_token, shop_id)
-            url = f'{host}{path}?access_token={access_token}&category_id={100006}&language=vi&partner_id={partner_id}&shop_id={shop_id}&timestamp={timest}&sign={sign}'
+            url = f'{host}{path}?access_token={access_token}&category_id={category_id}&language=vi&partner_id={partner_id}&shop_id={shop_id}&timestamp={timest}&sign={sign}'
             print(url)
             payload = {}
             headers = {
