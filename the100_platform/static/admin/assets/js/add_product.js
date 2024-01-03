@@ -18,9 +18,9 @@ function getCookie(name) {
 function populateList(categories, childrenClass) {
     // Find the div in the DOM
     const div = document.querySelector('.' + childrenClass);
-    var number = childrenClass.split('-')[1]
-    var new_number = parseInt(number) + 1
-    var newChildren = 'children-' + new_number
+    const number = childrenClass.split('-')[1];
+    const new_number = parseInt(number) + 1;
+    const newChildren = 'children-' + new_number;
     // Create a new 'ul' element
     const ul = document.createElement('ul');
     ul.className = 'list-unstyled scrollable-list'; // Add any classes you need for styling
@@ -58,21 +58,21 @@ function populateList(categories, childrenClass) {
 
 
 function chooseCategory(categoryId, children, displayName) {
+    let chosenCategories;
     lastLevelCategory = categoryId
     console.log('Last level category: ', lastLevelCategory)
     const csrftoken = getCookie('csrftoken');
-    if (children == 'children-1') {
-        var chosenCategories = document.getElementById('chosenCategories')
+    if (children === 'children-1') {
+        chosenCategories = document.getElementById('chosenCategories');
         chosenCategories.innerHTML = ''
         chosenCategories.innerHTML = displayName
     } else {
-        var chosenCategories = document.getElementById('chosenCategories').textContent
-        const newChosenCategories = chosenCategories + ' > ' + displayName
-        chosenCategories.innerHTML = newChosenCategories
+        chosenCategories = document.getElementById('chosenCategories').textContent;
+        chosenCategories.innerHTML = chosenCategories + ' > ' + displayName
     }
-    var dataToSend = {
+    const dataToSend = {
         categoryId: categoryId
-    }
+    };
     fetch("/admin/category/children/", {
         method: 'POST',
         headers: {
@@ -90,9 +90,11 @@ function chooseCategory(categoryId, children, displayName) {
 
 function saveChoosenCategory() {
     const csrftoken = getCookie('csrftoken');
-    var dataToSend = {
+    const dataToSend = {
         categoryId: lastLevelCategory
-    }
+    };
+    console.clear();
+
     fetch("/shopee/get_attributes/", {
         method: 'POST',
         headers: {
@@ -103,9 +105,85 @@ function saveChoosenCategory() {
         .then(response => response.json())
         .then(data => {
             // 'data' is now the JSON response from Django
-            console.clear();
+            console.log('Getting attributes...')
             loadFormAfterSaveCate(data.data.response.attribute_list);
         })
+
+
+    fetch("/shopee/get_brands/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting brands...')
+            console.log(data.data)
+        })
+
+
+    fetch("/shopee/get_dts_limit/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting day to ship...')
+            console.log(data.data)
+        })
+
+
+    fetch("/shopee/get_size_chart/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting size chart...')
+            console.log(data.data)
+        })
+
+    fetch("/shopee/get_item_limit/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting item limit...')
+            console.log(data.data)
+        })
+
+    fetch("/shopee/get_channel_list/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting channel list...')
+            console.log(data.data)
+        })
+
+
+    quitModal();
 }
 
 function loadFormAfterSaveCate(attributeLists) {
@@ -138,6 +216,6 @@ function loadFormAfterSaveCate(attributeLists) {
 
 function quitModal() {
     const modalForm = document.getElementById('LoginForm')
-    var modal = bootstrap.Modal.getInstance(modalForm)
+    const modal = bootstrap.Modal.getInstance(modalForm);
     modal.hide()
 }

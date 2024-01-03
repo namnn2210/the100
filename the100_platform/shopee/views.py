@@ -154,7 +154,116 @@ def get_attributes(request):
             sign = get_sign_with_access_token(partner_id, partner_key, path, timest, access_token, shop_id)
             url = f'{host}{path}?access_token={access_token}&category_id={category_id}&language=vi&partner_id={partner_id}&shop_id={shop_id}&timestamp={timest}&sign={sign}'
             print(url)
-            payload = {}
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'}
+            # resp = requests.get(url=url, headers=headers)
+            resp = requests.get(url, headers=headers).json()
+            return JsonResponse({'data': resp})
+    return {'error': 'Not authenticated'}
+
+
+def get_brands(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            category_id = json.loads(request.body.decode('utf-8')).get('categoryId')
+            partner_id = settings.PARTNER_ID
+            partner_key = settings.LIVE_KEY
+            shop_id = ShopAuth.objects.get(user=request.user).shop_id
+            access_token, _ = check_expired_access_token(request)
+            timest = int(time.time())
+            host = settings.SHOP_AUTH_HOST
+            path = settings.LIST_BRANDS
+            sign = get_sign_with_access_token(partner_id, partner_key, path, timest, access_token, shop_id)
+            url = f'{host}{path}?access_token={access_token}&category_id={category_id}&language=vi&offset=0&page_size=10&status=1&partner_id={partner_id}&shop_id={shop_id}&timestamp={timest}&sign={sign}'
+            print(url)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'}
+            # resp = requests.get(url=url, headers=headers)
+            resp = requests.get(url, headers=headers).json()
+            return JsonResponse({'data': resp})
+    return {'error': 'Not authenticated'}
+
+
+def get_dts_limit(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            category_id = json.loads(request.body.decode('utf-8')).get('categoryId')
+            partner_id = settings.PARTNER_ID
+            partner_key = settings.LIVE_KEY
+            shop_id = ShopAuth.objects.get(user=request.user).shop_id
+            access_token, _ = check_expired_access_token(request)
+            timest = int(time.time())
+            host = settings.SHOP_AUTH_HOST
+            path = settings.LIST_DTS_LIMIT
+            sign = get_sign_with_access_token(partner_id, partner_key, path, timest, access_token, shop_id)
+            url = f'{host}{path}?access_token={access_token}&category_id={category_id}&partner_id={partner_id}&shop_id={shop_id}&timestamp={timest}&sign={sign}'
+            print(url)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'}
+            # resp = requests.get(url=url, headers=headers)
+            resp = requests.get(url, headers=headers).json()
+            return JsonResponse({'data': resp})
+    return {'error': 'Not authenticated'}
+
+
+def get_size_chart(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            category_id = json.loads(request.body.decode('utf-8')).get('categoryId')
+            partner_id = settings.PARTNER_ID
+            partner_key = settings.LIVE_KEY
+            shop_id = ShopAuth.objects.get(user=request.user).shop_id
+            access_token, _ = check_expired_access_token(request)
+            timest = int(time.time())
+            host = settings.SHOP_AUTH_HOST
+            path = settings.LIST_SIZE_CHART
+            sign = get_sign_with_access_token(partner_id, partner_key, path, timest, access_token, shop_id)
+            url = f'{host}{path}?access_token={access_token}&category_id={category_id}&partner_id={partner_id}&shop_id={shop_id}&timestamp={timest}&sign={sign}'
+            print(url)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'}
+            # resp = requests.get(url=url, headers=headers)
+            resp = requests.get(url, headers=headers).json()
+            return JsonResponse({'data': resp})
+    return {'error': 'Not authenticated'}
+
+
+def get_item_limit(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            category_id = json.loads(request.body.decode('utf-8')).get('categoryId')
+            partner_id = settings.PARTNER_ID
+            partner_key = settings.LIVE_KEY
+            shop_id = ShopAuth.objects.get(user=request.user).shop_id
+            access_token, _ = check_expired_access_token(request)
+            timest = int(time.time())
+            host = settings.SHOP_AUTH_HOST
+            path = settings.LIST_ITEM_LIMIT
+            sign = get_sign_with_access_token(partner_id, partner_key, path, timest, access_token, shop_id)
+            url = f'{host}{path}?access_token={access_token}&category_id={category_id}&partner_id={partner_id}&shop_id={shop_id}&timestamp={timest}&sign={sign}'
+            print(url)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'}
+            # resp = requests.get(url=url, headers=headers)
+            resp = requests.get(url, headers=headers).json()
+            return JsonResponse({'data': resp})
+    return {'error': 'Not authenticated'}
+
+
+def get_channel_list(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            category_id = json.loads(request.body.decode('utf-8')).get('categoryId')
+            partner_id = settings.PARTNER_ID
+            partner_key = settings.LIVE_KEY
+            shop_id = ShopAuth.objects.get(user=request.user).shop_id
+            access_token, _ = check_expired_access_token(request)
+            timest = int(time.time())
+            host = settings.SHOP_AUTH_HOST
+            path = settings.LIST_CHANNEL
+            sign = get_sign_with_access_token(partner_id, partner_key, path, timest, access_token, shop_id)
+            url = f'{host}{path}?access_token={access_token}&category_id={category_id}&partner_id={partner_id}&shop_id={shop_id}&timestamp={timest}&sign={sign}'
+            print(url)
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'}
             # resp = requests.get(url=url, headers=headers)
