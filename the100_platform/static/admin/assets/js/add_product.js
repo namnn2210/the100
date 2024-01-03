@@ -93,6 +93,8 @@ function saveChoosenCategory() {
     const dataToSend = {
         categoryId: lastLevelCategory
     };
+    console.clear();
+
     fetch("/shopee/get_attributes/", {
         method: 'POST',
         headers: {
@@ -103,14 +105,89 @@ function saveChoosenCategory() {
         .then(response => response.json())
         .then(data => {
             // 'data' is now the JSON response from Django
-            console.clear();
+            console.log('Getting attributes...')
             loadFormAfterSaveCate(data.data.response.attribute_list);
         })
+
+
+    fetch("/shopee/get_brands/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting brands...')
+            console.log(data.data)
+        })
+
+
+    fetch("/shopee/get_dts_limit/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting day to ship...')
+            console.log(data.data)
+        })
+
+
+    fetch("/shopee/get_size_chart/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting size chart...')
+            console.log(data.data)
+        })
+
+    fetch("/shopee/get_item_limit/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting item limit...')
+            console.log(data.data)
+        })
+
+    fetch("/shopee/get_channel_list/", {
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken // Include CSRF token in headers
+        },
+        body: JSON.stringify(dataToSend),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 'data' is now the JSON response from Django
+            console.log('Getting channel list...')
+            console.log(data.data)
+        })
+
+
+    quitModal();
 }
 
 function loadFormAfterSaveCate(attributeLists) {
     console.log(attributeLists)
-    quitModal()
     document.querySelector('#detail-info').removeAttribute('style');
     const divDetail = document.createElement('div');
     attributeLists.forEach(attribute => {
