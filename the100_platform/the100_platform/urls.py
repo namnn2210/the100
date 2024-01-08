@@ -24,7 +24,8 @@ urlpatterns = [
     path('', include('homepage.urls')),
     path('authentication/', include('authentication.urls')),
     path('product/', include('products.urls')),
-    path('shopee/', include('shopee.urls'))
+    path('shopee/', include('shopee.urls')),
+    path('category/', include('categories.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
