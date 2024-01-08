@@ -38,7 +38,7 @@ def check_expired_access_token(request):
     print('Current datetime: %s' % current_datetime)
     print('DB datetime: %s ' % shop_access_token.updated_at)
     time_difference = (current_datetime - shop_access_token.updated_at) / timedelta(hours=1)
-    if time_difference > 4 or shop_access_token.updated_at < current_datetime:
+    if time_difference > 4:
         print('smaller')
         print(shop_auth_obj.shop_id, shop_access_token.refresh_token)
         new_access_token, new_refresh_token = get_refresh_token(shop_auth_obj.shop_id, shop_access_token.refresh_token)
