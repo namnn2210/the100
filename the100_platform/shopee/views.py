@@ -31,13 +31,18 @@ def get_sign_with_access_token(partner_id, partner_key, path, timest, access_tok
 def check_expired_access_token(request):
     # Check if access_token is expired, if not, call refresh_token to get latest access_token
     shop_access_token = ShopAccessToken.objects.get(user=request.user)
+    print('====', shop_access_token)
     shop_auth_obj = ShopAuth.objects.get(user=request.user)
+    print('====', shop_auth_obj)
     current_datetime = datetime.now(timezone.utc)
-    logging.info('Current datetime: %s' % current_datetime)
-    logging.info('DB datetime: %s ' % shop_access_token.updated_at)
+    print('Current datetime: %s' % current_datetime)
+    print('DB datetime: %s ' % shop_access_token.updated_at)
     time_difference = (current_datetime - shop_access_token.updated_at) / timedelta(hours=1)
-    if time_difference > 4:
+    if time_difference > 4 or shop_access_token.updated_at < current_datetime:
+        print('smaller')
+        print(shop_auth_obj.shop_id, shop_access_token.refresh_token)
         new_access_token, new_refresh_token = get_refresh_token(shop_auth_obj.shop_id, shop_access_token.refresh_token)
+        print(new_access_token, new_refresh_token)
         shop_access_token.access_token = new_access_token
         shop_access_token.refresh_token = new_refresh_token
         shop_access_token.updated_at = current_datetime
@@ -61,7 +66,7 @@ def shop_auth(request):
         partner_key = settings.LIVE_KEY
         sign = get_sign_authentication(partner_id, partner_key, path, timest)
         ##generate api
-        url = f'{host}{path}?partner_id={partner_id}&timestamp={timest}&sign={sign}'
+        url = f'{host}{path}?partner_id={partner_id}&timestamp={timest}&sign={sign}&redirect={redirect_url}'
         print(url)
         return JsonResponse({'url': url})
 
@@ -92,8 +97,10 @@ def get_refresh_token(shop_id, refresh_token):
     body = {"shop_id": shop_id, "refresh_token": refresh_token, "partner_id": partner_id}
     sign = get_sign_authentication(partner_id, partner_key, path, timest)
     url = f'{host}{path}?partner_id={partner_id}&timestamp={timest}&sign={sign}'
-    # print(url)
+    print(url)
+    print(body)
     resp = post_request(url, body)
+    print('***************', resp)
     access_token = resp.get("access_token")
     new_refresh_token = resp.get("refresh_token")
     return access_token, new_refresh_token
