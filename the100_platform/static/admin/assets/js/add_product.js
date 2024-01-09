@@ -187,7 +187,8 @@ function saveChoosenCategory() {
 }
 
 function loadFormAfterSaveCate(attributeLists) {
-    console.log(attributeLists)
+    var detailInfo = document.querySelector('#detail-info-content');
+    detailInfo.innerHTML = '';
     document.querySelector('#detail-info').removeAttribute('style');
     const divDetail = document.createElement('div');
     attributeLists.forEach(attribute => {
@@ -197,21 +198,29 @@ function loadFormAfterSaveCate(attributeLists) {
         const label = document.createElement('label');
         label.setAttribute('for', attribute.attribute_id);
         label.text = attribute.display_attribute_name;
+        label.innerText = attribute.display_attribute_name;
         div.appendChild(label);
-        const select = document.createElement('select');
-        select.setAttribute('id', attribute.attribute_id);
-        select.setAttribute('class', 'form-control');
 
-        attribute.attribute_value_list.forEach(valueList => {
-            const option = document.createElement('option');
-            option.value = valueList.value_id;
-            option.text = valueList.display_value_name;
-            select.appendChild(option)
-        });
-        div.appendChild(select);
+        if (attribute.input_type == 'COMBO_BOX') {
+            const select = document.createElement('select');
+            select.setAttribute('id', attribute.attribute_id);
+            select.setAttribute('class', 'form-control');
+            attribute.attribute_value_list.forEach(valueList => {
+                const option = document.createElement('option');
+                option.value = valueList.value_id;
+                option.text = valueList.display_value_name;
+                select.appendChild(option)
+            });
+            div.appendChild(select);
+        } else {
+            const input = document.createElement('input');
+            input.setAttribute('id', attribute.attribute_id);
+            input.setAttribute('class', 'form-control');
+            div.appendChild(input);
+        }
         divDetail.appendChild(div);
     });
-    document.querySelector('#detail-info-content').appendChild(divDetail);
+    detailInfo.appendChild(divDetail);
 }
 
 function quitModal() {

@@ -45,7 +45,7 @@ function toggleMenu() {
     } else {
         isOpen.style.display = "block";
     }
-};
+}
 
 //Menu Active
 function getClosest(elem, selector) {

@@ -130,48 +130,8 @@
                     </div><!--end col-->
                 </div>
             </div>
-            <div class="modal fade" id="LoginForm" tabindex="-1" aria-labelledby="LoginForm-title" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-xl">
-                    <div class="modal-content rounded shadow border-0">
-                        <div class="modal-header border-bottom">
-                            <h5 class="modal-title" id="LoginForm-title">Chỉnh sửa ngành hàng</h5>
-                            <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal"
-                                    id="close-modal"><i class="uil uil-times fs-4 text-dark"></i></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="p-3 rounded box-shadow">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <ul class="list-unstyled scrollable-list">
-                                            {% for category in list_categories%}
-                                            <li>
-                                                <span id="{{category.id}}"
-                                                      onclick="chooseCategory({{category.id}}, 'children-1','{{category.display_category_name}}')">{{category.display_category_name}}</span>
-                                                {% if category.has_children%}
-                                                <span class="category-item-right"> > </span>
-                                                {% endif %}
-                                            </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3 children-1"></div>
-                                    <div class="col-md-3 children-2"></div>
-                                    <div class="col-md-3 children-3"></div>
-                                    <div class="col-md-3 children-4"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <span id="chosenCategories">Đã chọn: </span>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="quitModal()">
-                                Close
-                            </button>
-                            <button type="button" class="btn btn-primary" onclick="saveChoosenCategory()">Save changes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            {% include 'admin/product/modal/select-cate.html' %}
         </div><!--end container-->
 
         {% include 'admin/partials/footer.html' %}
@@ -189,6 +149,11 @@
 <script src="{% static 'admin/assets/js/plugins.init.js' %}"></script>
 <script src="{% static 'admin/assets/js/app.js' %}"></script>
 <script src="{% static 'admin/assets/js/add_product.js' %}"></script>
+<script src='{% static "admin/assets/js/product.js"%}'></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var product = new Product();
+    });
+</script>
 </body>
-
 </html>
