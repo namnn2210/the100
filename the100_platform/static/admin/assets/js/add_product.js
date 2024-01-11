@@ -110,77 +110,77 @@ function saveChoosenCategory() {
         })
 
 
-    fetch("/shopee/get_brands/", {
-        method: 'POST',
-        headers: {
-            "X-CSRFToken": csrftoken // Include CSRF token in headers
-        },
-        body: JSON.stringify(dataToSend),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // 'data' is now the JSON response from Django
-            console.log('Getting brands...')
-            console.log(data.data)
-        })
+    // fetch("/shopee/get_brands/", {
+    //     method: 'POST',
+    //     headers: {
+    //         "X-CSRFToken": csrftoken // Include CSRF token in headers
+    //     },
+    //     body: JSON.stringify(dataToSend),
+    // })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         // 'data' is now the JSON response from Django
+    //         console.log('Getting brands...')
+    //         console.log(data.data)
+    //     })
 
 
-    fetch("/shopee/get_dts_limit/", {
-        method: 'POST',
-        headers: {
-            "X-CSRFToken": csrftoken // Include CSRF token in headers
-        },
-        body: JSON.stringify(dataToSend),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // 'data' is now the JSON response from Django
-            console.log('Getting day to ship...')
-            console.log(data.data)
-        })
+    // fetch("/shopee/get_dts_limit/", {
+    //     method: 'POST',
+    //     headers: {
+    //         "X-CSRFToken": csrftoken // Include CSRF token in headers
+    //     },
+    //     body: JSON.stringify(dataToSend),
+    // })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         // 'data' is now the JSON response from Django
+    //         console.log('Getting day to ship...')
+    //         console.log(data.data)
+    //     })
 
 
-    fetch("/shopee/get_size_chart/", {
-        method: 'POST',
-        headers: {
-            "X-CSRFToken": csrftoken // Include CSRF token in headers
-        },
-        body: JSON.stringify(dataToSend),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // 'data' is now the JSON response from Django
-            console.log('Getting size chart...')
-            console.log(data.data)
-        })
+    // fetch("/shopee/get_size_chart/", {
+    //     method: 'POST',
+    //     headers: {
+    //         "X-CSRFToken": csrftoken // Include CSRF token in headers
+    //     },
+    //     body: JSON.stringify(dataToSend),
+    // })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         // 'data' is now the JSON response from Django
+    //         console.log('Getting size chart...')
+    //         console.log(data.data)
+    //     })
 
-    fetch("/shopee/get_item_limit/", {
-        method: 'POST',
-        headers: {
-            "X-CSRFToken": csrftoken // Include CSRF token in headers
-        },
-        body: JSON.stringify(dataToSend),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // 'data' is now the JSON response from Django
-            console.log('Getting item limit...')
-            console.log(data.data)
-        })
+    // fetch("/shopee/get_item_limit/", {
+    //     method: 'POST',
+    //     headers: {
+    //         "X-CSRFToken": csrftoken // Include CSRF token in headers
+    //     },
+    //     body: JSON.stringify(dataToSend),
+    // })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         // 'data' is now the JSON response from Django
+    //         console.log('Getting item limit...')
+    //         console.log(data.data)
+    //     })
 
-    fetch("/shopee/get_channel_list/", {
-        method: 'POST',
-        headers: {
-            "X-CSRFToken": csrftoken // Include CSRF token in headers
-        },
-        body: JSON.stringify(dataToSend),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // 'data' is now the JSON response from Django
-            console.log('Getting channel list...')
-            console.log(data.data)
-        })
+    // fetch("/shopee/get_channel_list/", {
+    //     method: 'POST',
+    //     headers: {
+    //         "X-CSRFToken": csrftoken // Include CSRF token in headers
+    //     },
+    //     body: JSON.stringify(dataToSend),
+    // })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         // 'data' is now the JSON response from Django
+    //         console.log('Getting channel list...')
+    //         console.log(data.data)
+    //     })
 
 
     quitModal();
