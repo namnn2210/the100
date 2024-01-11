@@ -106,7 +106,8 @@ function saveChoosenCategory() {
         .then(data => {
             // 'data' is now the JSON response from Django
             console.log('Getting attributes...')
-            loadFormAfterSaveCate(data.data.response.attribute_list);
+            console.log(data.data)
+            loadFormAfterSaveCate(data.data.response.attribute_list)
         })
 
 
@@ -186,14 +187,15 @@ function saveChoosenCategory() {
     quitModal();
 }
 
-function loadFormAfterSaveCate(attributeLists) {
+function loadFormAfterSaveCate(attributeLists,) {
     var detailInfo = document.querySelector('#detail-info-content');
     detailInfo.innerHTML = '';
     document.querySelector('#detail-info').removeAttribute('style');
     const divDetail = document.createElement('div');
+        divDetail.setAttribute('class', 'row');
     attributeLists.forEach(attribute => {
         const div = document.createElement('div');
-        div.setAttribute('class', 'form-group');
+        div.setAttribute('class', 'form-group col-md-6 my-2');
 
         const label = document.createElement('label');
         label.setAttribute('for', attribute.attribute_id);
@@ -204,7 +206,7 @@ function loadFormAfterSaveCate(attributeLists) {
         if (attribute.input_type == 'COMBO_BOX') {
             const select = document.createElement('select');
             select.setAttribute('id', attribute.attribute_id);
-            select.setAttribute('class', 'form-control');
+            select.setAttribute('class', 'form-control col-md-6');
             attribute.attribute_value_list.forEach(valueList => {
                 const option = document.createElement('option');
                 option.value = valueList.value_id;
@@ -214,8 +216,15 @@ function loadFormAfterSaveCate(attributeLists) {
             div.appendChild(select);
         } else {
             const input = document.createElement('input');
+            let type = '';
             input.setAttribute('id', attribute.attribute_id);
             input.setAttribute('class', 'form-control');
+            if(attribute.input_validation_type == 'DATE_TYPE'){
+                type ='date'
+            }else{
+                type = 'text'
+            }
+            input.setAttribute('type', type);
             div.appendChild(input);
         }
         divDetail.appendChild(div);

@@ -100,8 +100,44 @@
                     <div class="col-12 col-md-8 card mx-auto">
                         <div class="card-body">
                             <h5 class="card-title">Thông tin bán hàng</h5>
-                            <p id="sales-text" class="panel-inactive-content">Có thể điều chỉnh sau khi chọn ngành
-                                hàng </p>
+                            <!--                            <p id="sales-text" class="panel-inactive-content">Có thể điều chỉnh sau khi chọn ngành-->
+                            <!--                                hàng </p>-->
+                            <div class="row">
+                                <div class="col-12 row my-2">
+                                    <div class="col-2">
+                                        Phân loại hàng
+                                    </div>
+                                    <div class="col-10">
+                                        <button class="btn btn-outline-info">Thêm nhóm phân loại</button>
+                                    </div>
+                                </div>
+                                <div class="col-12 row my-2">
+                                    <div class="col-2">
+                                        Giá
+                                    </div>
+                                    <div class="col-10">
+                                        <input class="form-control" type="number" step="1" min="0" placeholder="đồng">
+                                    </div>
+                                </div>
+                                <div class="col-12 row my-2">
+                                    <div class="col-2">
+                                        Kho hàng
+                                    </div>
+                                    <div class="col-10">
+                                        <input class="form-control" type="number"
+                                               placeholder="Số lượng sản phẩm trong kho" step="1" min="0">
+                                    </div>
+                                </div>
+                                <div class="col-12 row my-2">
+                                    <div class="col-2">
+                                        Mua nhiều giảm giá
+                                    </div>
+                                    <div class="col-10">
+                                        <button class="btn btn-outline-info">Thêm khoảng giá</button>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -151,7 +187,7 @@
 <script src="{% static 'admin/assets/js/add_product.js' %}"></script>
 <script src='{% static "admin/assets/js/product.js"%}'></script>
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function () {
         var product = new Product();
     });
 </script>
