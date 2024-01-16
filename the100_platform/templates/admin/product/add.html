@@ -103,6 +103,50 @@
                             <!--                            <p id="sales-text" class="panel-inactive-content">Có thể điều chỉnh sau khi chọn ngành-->
                             <!--                                hàng </p>-->
                             <div class="row">
+                                <div class="panel panel-default shadow p-2 my-2 position-relative" id="group-type1">
+                                    <div class="panel-body ">
+                                        <div class="col-10" id="grh1">
+                                            <div class="input-group m-3">
+                                                <label for="type-1" class="me-2 col-4">Nhóm phân loại 1</label>
+                                                <input type="text" class="form-control count-char col-10"
+                                                       data-span="gr-type-1-text"
+                                                       aria-label="Amount (to the nearest dollar)" id="type-1"
+                                                       maxlength="14" name="group-type">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><span
+                                                            id="gr-type-1-text">0</span>/14</span>
+                                                </div>
+                                            </div>
+                                            <div class="input-group m-3">
+                                                <label for="type-1" class="me-2 col-4">Phân loại hàng</label>
+                                                <input type="text" class="form-control count-char col-10"
+                                                       data-span="gr-type-1-text"
+                                                       aria-label="Amount (to the nearest dollar)" id="type-2"
+                                                       maxlength="14" name="group-type">
+                                                <div class="input-group-append">
+                                                <span class="input-group-text"><span
+                                                        id="gr-type-3-text">0</span>/14</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="input-group m-3">
+                                                <label for="type-1" class="me-2 col-4">Phân loại hàng</label>
+                                                <input type="text" class="form-control count-char col-10"
+                                                       data-span="gr-type-1-text"
+                                                       aria-label="Amount (to the nearest dollar)" id="type-3"
+                                                       maxlength="14" name="group-type">
+                                                <div class="input-group-append">
+                                                <span class="input-group-text"><span
+                                                        id="gr-type-2-text">0</span>/14</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="btn-close position-absolute" style="top:20px;right:20px;"
+                                       data-toggle="collapse" href="#demo"> </a>
+                                </div>
+
                                 <div class="col-12 row my-2">
                                     <div class="col-2">
                                         Phân loại hàng
@@ -300,17 +344,20 @@
 <!-- javascript -->
 {% include 'admin/partials/vendor-scripts.html' %}
 <script src="{% static 'admin/assets/libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'admin/assets/libs/jquery-ui/jquery-ui.min.js' %}"></script>
 <!-- Main Js -->
 <script src="{% static 'admin/assets/js/plugins.init.js' %}"></script>
 <script src="{% static 'admin/assets/js/app.js' %}"></script>
 <script src="{% static 'admin/assets/js/add_product.js' %}"></script>
 <script src='{% static "admin/assets/js/product.js"%}'></script>
 <script src='{% static "admin/assets/js/data_binder.js"%}'></script>
-<script type="text/javascript">
 
+
+
+<script type="text/javascript">
     var product = {
         image: {
-            image_id_list:[],
+            image_id_list: [],
         },
         video_upload_id: '',
         item_name: '',
@@ -321,8 +368,8 @@
         brand: {
             brand_id: 0,
         },
-        attribute_list:{
-            attribute_id:0,
+        attribute_list: {
+            attribute_id: 0,
             attribute_value_list: {
                 value_id: 0,
                 original_value_name: '',
@@ -335,13 +382,20 @@
             stock: 0,
         },
         weight: 0,
+        dimension: {
+            package_height: 0,
+            package_length: 0,
+            package_width: 0,
+        }
     }
-
-        $(document).ready(function () {
-            $('.count-char').each(function () {
-                countInput($(this).attr('id'));
-            });
+    $(function () {
+        $("#grh1").sortable();
+    });
+    $(document).ready(function () {
+        $('.count-char').each(function () {
+            countInput($(this).attr('id'));
         });
+    });
     $('input[type=radio][name=is_pre_order]').on('change', function () {
         switch ($(this).val()) {
             case 'inactive':
@@ -369,34 +423,63 @@
         }, 5)
     });
 
-    function addGroupType(groupOrder) {
-        let newPanel = document.createElement('div');
-        newPanel.classList = 'panel panel-default shadow p-2 my-2';
-        newPanel.setAttribute('id', 'group-type' + groupOrder);
-        newPanel.innerHTML = '                              <div class="panel-body d-flex align-self">\n' +
-            '                                                    <div class="input-group m-3">\n' +
-            '                                                        <label for="type-1" class="me-2">Nhóm phân loại ' + groupOrder + '</label>\n' +
-            '                                                        <input type="text" class="form-control count-char"\n' +
-            '                                                               data-span="gr-type-1-text"\n' +
-            '                                                               aria-label="Amount (to the nearest dollar)" id="type-1"\n' +
-            '                                                               type="text" maxlength="14" name="group-type">\n' +
-            '                                                        <div class="input-group-append">\n' +
-            '                                                            <span class="input-group-text"><span\n' +
-            '                                                                    id="gr-type-1-text">0</span>/14</span>\n' +
-            '                                                        </div>\n' +
-            '                                                    </div>\n' +
-            '                                                    <a class="m-3" data-toggle="collapse" href="#demo"\n' +
-            '                                                       class="close">&times </a>\n' +
-            '                                                </div>\n';
-
-        $('#list-group-type').append(newPanel);
-        $('#btn-add-group-type-' + groupOrder).hide();
-        $('#btn-add-group-type-' + (groupOrder + 1)).show();
-    }
+    // function addGroupType(groupOrder) {
+    //     let newPanel = document.createElement('div');
+    //     newPanel.classList = 'panel panel-default shadow p-2 my-2';
+    //     newPanel.setAttribute('id', 'group-type' + groupOrder);
+    //     newPanel.innerHTML = '
+    //         < div
+    //
+    //     class
+    //
+    //     = "panel-body d-flex align-self" >\n
+    //     ' +
+    //     '
+    //     < div
+    //
+    //     class
+    //
+    //     = "input-group m-3" >\n
+    //     ' +
+    //     ' <label for="type-1" class="me-2">Nhóm phân loại ' + groupOrder + '</label>\n' +
+    //     ' <input type="text" class="form-control count-char" \n' +
+    //     ' data-span="gr-type-1-text"\n' +
+    //     ' aria-label="Amount (to the nearest dollar)" id="type-1"\n' +
+    //     ' type="text" maxlength="14" name="group-type">\n' +
+    //     '
+    //     < div
+    //
+    //     class
+    //
+    //     = "input-group-append" >\n
+    //     ' +
+    //     ' <span class="input-group-text"><span\n' +
+    //     '                                                                    id="gr-type-1-text">0</span>/14</span>
+    //         \n
+    //     ' +
+    //     '
+    //     < /div>
+    //     \n
+    //     ' +
+    //     '
+    //     < /div>
+    // \n
+    //     ' +
+    //     ' <a class="m-3" data-toggle="collapse" href="#demo" \n' +
+    //     ' class="close">&times </a>\n' +
+    //     '
+    //     < /div>\n';
+    //
+    //     $('#list-group-type').append(newPanel);
+    //     $('#btn-add-group-type-' + groupOrder).hide();
+    //     $('#btn-add-group-type-' + (groupOrder + 1)).show();
+    // }
 
     function removeGroupType(groupOrder) {
 
     }
 </script>
+
+
 </body>
 </html>

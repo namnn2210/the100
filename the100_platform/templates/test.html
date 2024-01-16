@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="row">
+    <div class="col-12 row my-2">
+        <div class="col-2">
+            Đặt hàng trước
+        </div>
+        <div class="col-10">
+            <div>
+                <input type="radio" value="inactive" id="pre-order-false" checked="checked"
+                       name="is_pre_order">
+                <label for="pre-order-false" class="me-3">Không</label>
+                <input type="radio" value="active" id="pre-order-true" name="is_pre_order">
+                <label for="pre-order-true">Đồng ý</label>
+            </div>
+            <div>
+                <div id="days-to-ship-disagree-text">Tôi sẽ gửi hàng trong 2 ngày (không bao
+                    gồm
+                    các ngày nghỉ lễ, Tết và những ngày đơn vị vận chuyển không làm việc)
+                </div>
+                <div id="days-to-ship-agree-text" style="display: none;">
+                    Tôi cần <label id="wrap-days-to-ship-input"><input
+                        id="days-to-ship-input" class="form-control" type="number" min="0"
+                        step="1" name="days_to_ship"></label> ngày chuẩn bị hàng. Bạn có thể
+                    chọn từ 5 đến 15 ngày. Shopee đề xuất chọn thời gian sớm nhất trong khả
+                    năng vận hành của bạn nhằm tăng tỉ lệ chuyển đổi!
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 row my-2">
+        <div class="col-2">
+            Giá
+        </div>
+        <div class="col-10">
+            <input class="form-control" type="number" step="1" min="0" placeholder="VND">
+        </div>
+    </div>
+    <div class="col-12 row my-2">
+        <div class="col-2">
+            Kho hàng
+        </div>
+        <div class="col-10">
+            <input class="form-control" type="number"
+                   placeholder="Số lượng sản phẩm trong kho" step="1" min="0">
+        </div>
+    </div>
+</div>
+</body>
+</html>
