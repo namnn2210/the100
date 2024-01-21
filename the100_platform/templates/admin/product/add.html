@@ -191,7 +191,40 @@
                                         Mua nhiều giảm giá
                                     </div>
                                     <div class="col-10">
-                                        <button class="btn btn-outline-info">Thêm khoảng giá</button>
+                                        <button class="btn btn-outline-info" onclick="addPriceRange()">Thêm khoảng giá
+                                        </button>
+                                        <table class="table table-bordered" id="wholesale-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Khoảng giá</th>
+                                                <th>Từ (sản phẩm)</th>
+                                                <th>Đến (sản phẩm)</th>
+                                                <th>Đến (sản phẩm)</th>
+                                                <th>Đơn Giá</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="data-table">
+                                            <tr>
+                                                <td>Khoảng giá 1</td>
+                                                <td><input class="form-control" type="number" min="1" maxlength="6"
+                                                           step="1"/></td>
+                                                <td><input class="form-control" type="number" min="1" maxlength="6"
+                                                           step="1"/></td>
+                                                <td><input class="form-control" type="number" min="1" maxlength="6"
+                                                           step="1"/></td>
+                                                <td><input class="form-control" type="number" min="1" maxlength="6"
+                                                           step="1"/></td>
+                                                <td style="position:relative">
+                                                    <a class="btn-close position-absolute"
+                                                     style="top:20px;right:20px;"
+                                                     data-toggle="collapse"
+                                                     href="javascript:;"
+                                                     onclick="removePriceRange(1)"> </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -340,6 +373,9 @@
     </main>
     <!--End page-content" -->
 </div>
+<table>
+
+</table>
 <!-- page-wrapper -->
 
 {% include 'admin/partials/offcanvas-right.html' %}
@@ -386,7 +422,8 @@
             package_height: 0,
             package_length: 0,
             package_width: 0,
-        }
+        },
+        wholesale: {}
     }
     $(function () {
         $("#grh1").sortable();
@@ -426,59 +463,96 @@
         }, 5)
     });
 
-    // function addGroupType(groupOrder) {
-    //     let newPanel = document.createElement('div');
-    //     newPanel.classList = 'panel panel-default shadow p-2 my-2';
-    //     newPanel.setAttribute('id', 'group-type' + groupOrder);
-    //     newPanel.innerHTML = '
-    //         < div
-    //
-    //     class
-    //
-    //     = "panel-body d-flex align-self" >\n
-    //     ' +
-    //     '
-    //     < div
-    //
-    //     class
-    //
-    //     = "input-group m-3" >\n
-    //     ' +
-    //     ' <label for="type-1" class="me-2">Nhóm phân loại ' + groupOrder + '</label>\n' +
-    //     ' <input type="text" class="form-control count-char" \n' +
-    //     ' data-span="gr-type-1-text"\n' +
-    //     ' aria-label="Amount (to the nearest dollar)" id="type-1"\n' +
-    //     ' type="text" maxlength="14" name="group-type">\n' +
-    //     '
-    //     < div
-    //
-    //     class
-    //
-    //     = "input-group-append" >\n
-    //     ' +
-    //     ' <span class="input-group-text"><span\n' +
-    //     '                                                                    id="gr-type-1-text">0</span>/14</span>
-    //         \n
-    //     ' +
-    //     '
-    //     < /div>
-    //     \n
-    //     ' +
-    //     '
-    //     < /div>
-    // \n
-    //     ' +
-    //     ' <a class="m-3" data-toggle="collapse" href="#demo" \n' +
-    //     ' class="close">&times </a>\n' +
-    //     '
-    //     < /div>\n';
-    //
-    //     $('#list-group-type').append(newPanel);
-    //     $('#btn-add-group-type-' + groupOrder).hide();
-    //     $('#btn-add-group-type-' + (groupOrder + 1)).show();
-    // }
+    function addGroupType(groupOrder) {
+        let newPanel = document.createElement('div');
+        newPanel.classList = 'panel panel-default shadow p-2 my-2';
+        newPanel.setAttribute('id', 'group-type' + groupOrder);
+        newPanel.innerHTML = ' \n' +
+            '                                <div class="panel panel-default shadow p-2 my-2 position-relative" id="group-type1">\n' +
+            '                                    <div class="panel-body ">\n' +
+            '                                        <div class="col-10">\n' +
+            '                                            <div class="input-group m-3">\n' +
+            '                                                <label for="type-1" class="me-2 col-4">Nhóm phân loại ' + groupOrder + '</label>\n' +
+            '                                                <input type="text" class="form-control count-char col-10"\n' +
+            '                                                       data-span="gr-type-1-text"\n' +
+            '                                                       aria-label="Amount (to the nearest dollar)" id="type-1"\n' +
+            '                                                       maxlength="14" name="group-type">\n' +
+            '                                                <div class="input-group-append">\n' +
+            '                                                    <span class="input-group-text"><span\n' +
+            '                                                            id="gr-type-1-text">0</span>/14</span>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                        </div>\n' +
+            '                                        <div class="col-10">\n' +
+            '                                            <div id="grh1">\n' +
+            '                                                <div class="input-group m-3">\n' +
+            '                                                    <label for="type-1" class="me-2 col-4">Phân loại hàng</label>\n' +
+            '                                                    <input type="text" class="form-control count-char col-10"\n' +
+            '                                                           data-span="gr-type-3-text"\n' +
+            '                                                           aria-label="Amount (to the nearest dollar)" id="type-2"\n' +
+            '                                                           maxlength="14" name="group-type">\n' +
+            '                                                    <div class="input-group-append">\n' +
+            '                                                <span class="input-group-text"><span\n' +
+            '                                                        id="gr-type-3-text">0</span>/14</span>\n' +
+            '                                                    </div>\n' +
+            '                                                </div>\n' +
+            '                                                <div class="input-group m-3">\n' +
+            '                                                    <label for="type-1" class="me-2 col-4"> </label>\n' +
+            '                                                    <input type="text" class="form-control count-char col-10"\n' +
+            '                                                           data-order=""\n' +
+            '                                                           data-span="gr-type-2-text"\n' +
+            '                                                           aria-label="Amount (to the nearest dollar)" id="type-3"\n' +
+            '                                                           maxlength="14" name="group-type">\n' +
+            '                                                    <div class="input-group-append">\n' +
+            '                                                        <span class="input-group-text"><span\n' +
+            '                                                                id="gr-type-2-text">0</span>/14</span>\n' +
+            '                                                    </div>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                        </div>\n' +
+            '                                    </div>\n' +
+            '                                    <a class="btn-close position-absolute" style="top:20px;right:20px;"\n' +
+            '                                       data-toggle="collapse" href="#demo"> </a>\n' +
+            '                                </div>';
+
+        $('#list-group-type').append(newPanel);
+        $('#btn-add-group-type-' + groupOrder).hide();
+        $('#btn-add-group-type-' + (groupOrder + 1)).show();
+    }
 
     function removeGroupType(groupOrder) {
+
+    }
+
+    function addPriceRange() {
+        if (product.wholesale.length === 0) {
+            $("#wholesale-table").show();
+        }
+        addPriceRangeRow(1)
+    }
+
+    function addPriceRangeRow(order) {
+        var addWholesale = {
+            order: order,
+            min_count: 1,
+            max_count: 2,
+            unit_price: 1.0
+        }
+    }
+
+    function removePriceRange(order) {
+
+    }
+
+    function updatePriceRange() {
+        if (product.wholesale.length > 0) {
+            product.wholesale.each(function (index, element) {
+                var t
+            });
+        }
+    }
+
+    function updateProduct() {
 
     }
 </script>
