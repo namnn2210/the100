@@ -191,9 +191,7 @@
                                         Mua nhiều giảm giá
                                     </div>
                                     <div class="col-10">
-                                        <button class="btn btn-outline-info" onclick="addPriceRange()">Thêm khoảng giá
-                                        </button>
-                                        <table class="table table-bordered" id="wholesale-table">
+                                        <table class="table table-bordered" id="wholesale-table" style="display: none;">
                                             <thead>
                                             <tr>
                                                 <th>Khoảng giá</th>
@@ -217,14 +215,19 @@
                                                            step="1"/></td>
                                                 <td style="position:relative">
                                                     <a class="btn-close position-absolute"
-                                                     style="top:20px;right:20px;"
-                                                     data-toggle="collapse"
-                                                     href="javascript:;"
-                                                     onclick="removePriceRange(1)"> </a>
+                                                       style="top:20px;right:20px;"
+                                                       data-toggle="collapse"
+                                                       href="javascript:;"
+                                                       onclick="removePriceRange(1)"> </a>
                                                 </td>
                                             </tr>
                                             </tbody>
                                         </table>
+
+                                        <button class="btn btn-outline-info my-2" onclick="addPriceRange(this)"
+                                                id="add-price-range" data-order="1">Thêm khoảng
+                                            giá
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -524,11 +527,13 @@
 
     }
 
-    function addPriceRange() {
-        if (product.wholesale.length === 0) {
+    function addPriceRange(self) {
+        var order = $(self).data('order');
+        if (order === 1) {
             $("#wholesale-table").show();
         }
-        addPriceRangeRow(1)
+        addPriceRangeRow(order)
+
     }
 
     function addPriceRangeRow(order) {
@@ -540,11 +545,18 @@
         }
     }
 
+    function resetPriceRange() {
+        $('#wholesale-table').hide();
+        $('#data-table').html('');
+        $('#add-price-range').attr('data-order', 1);
+    }
+
     function removePriceRange(order) {
 
     }
 
     function updatePriceRange() {
+        resetPriceRange();
         if (product.wholesale.length > 0) {
             product.wholesale.each(function (index, element) {
                 var t
