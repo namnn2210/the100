@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="row my-5">
-                    <div class="col-12 col-md-8 card mx-auto">
+                    <div class="col-12 col-md-8 card mx-auto bi-trash">
                         <div class="card-body">
                             <h5 class="card-title">Thông tin cơ bản</h5>
                             <div class="col-md-12">
@@ -103,70 +103,28 @@
                             <!--                            <p id="sales-text" class="panel-inactive-content">Có thể điều chỉnh sau khi chọn ngành-->
                             <!--                                hàng </p>-->
                             <div class="row">
-                                <div class="panel panel-default shadow p-2 my-2 position-relative" id="group-type1">
-                                    <div class="panel-body ">
-                                        <div class="col-10">
-                                            <div class="input-group m-3">
-                                                <label for="type-1" class="me-2 col-4">Nhóm phân loại 1</label>
-                                                <input type="text" class="form-control count-char col-10"
-                                                       data-span="gr-type-1-text"
-                                                       aria-label="Amount (to the nearest dollar)" id="type-1"
-                                                       maxlength="14" name="group-type">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text"><span
-                                                            id="gr-type-1-text">0</span>/14</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-10">
-                                            <div id="grh1">
-                                                <div class="input-group m-3">
-                                                    <label for="type-1" class="me-2 col-4">Phân loại hàng</label>
-                                                    <input type="text" class="form-control count-char col-10"
-                                                           data-span="gr-type-3-text"
-                                                           aria-label="Amount (to the nearest dollar)" id="type-2"
-                                                           maxlength="14" name="group-type">
-                                                    <div class="input-group-append">
-                                                <span class="input-group-text"><span
-                                                        id="gr-type-3-text">0</span>/14</span>
-                                                    </div>
-                                                </div>
-                                                <div class="input-group m-3">
-                                                    <label for="type-1" class="me-2 col-4"> </label>
-                                                    <input type="text" class="form-control count-char col-10"
-                                                           data-order=""
-                                                           data-span="gr-type-2-text"
-                                                           aria-label="Amount (to the nearest dollar)" id="type-3"
-                                                           maxlength="14" name="group-type">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text"><span
-                                                                id="gr-type-2-text">0</span>/14</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a class="btn-close position-absolute" style="top:20px;right:20px;"
-                                       data-toggle="collapse" href="#demo"> </a>
-                                </div>
-
                                 <div class="col-12 row my-2">
-                                    <div class="col-2">
-                                        Phân loại hàng
-                                    </div>
-                                    <div class="col-10">
-                                        <input type="text" class="hide" id="group-type">
-                                        <div id="list-group-type">
-                                        </div>
 
-                                        <button class="btn btn-outline-info m-1" id="btn-add-group-type-1"
-                                                onclick="addGroupType(1)">Thêm nhóm
-                                            phân loại
-                                        </button>
-                                        <button class="btn btn-outline-info m-1" id="btn-add-group-type-2"
-                                                style="display:none;" onclick="addGroupType(2)">Thêm nhóm
-                                            phân loại 2
-                                        </button>
+                                    <div class="container-views">
+                                        <h5 class="title-page">Thông tin bán hàng</h5>
+                                        <div class="classify">
+                                            <div class="title">Phân loại hàng</div>
+                                            <div id="list-classify" class="content">
+                                                <div id="btn-add-classify" onclick="addClassify(this)">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                    Thêm nhóm phân loại
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tbl-classify">
+                                            <div class="title">Danh sách phân loại hàng</div>
+                                            <div class="wrapper-table">
+                                                <table class="table table-sm" id="my-tbl">
+                                                    <thead></thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 row my-2">
@@ -527,15 +485,16 @@
 
     }
 
+    //click btn
     function addPriceRange(self) {
         var order = $(self).data('order');
         if (order === 1) {
             $("#wholesale-table").show();
         }
         addPriceRangeRow(order)
-
     }
 
+    //add row khoảng giá, add 1 object
     function addPriceRangeRow(order) {
         var addWholesale = {
             order: order,
@@ -559,7 +518,7 @@
         resetPriceRange();
         if (product.wholesale.length > 0) {
             product.wholesale.each(function (index, element) {
-                var t
+
             });
         }
     }
