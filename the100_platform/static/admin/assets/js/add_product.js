@@ -122,10 +122,11 @@ function saveChoosenCategory() {
     //     .then(data => {
     //         // 'data' is now the JSON response from Django
     //         console.log('Getting brands...')
-    //         console.log(data.data)
+    //         console.log(data.data.response)
+    //         loadBrands(data.data.response);
     //     })
-
-
+    //
+    //
     // fetch("/shopee/get_dts_limit/", {
     //     method: 'POST',
     //     headers: {
@@ -137,161 +138,207 @@ function saveChoosenCategory() {
     //     .then(data => {
     //         // 'data' is now the JSON response from Django
     //         console.log('Getting day to ship...')
-    //         console.log(data.data)
+    //         console.log(data.data.response.days_to_ship_limit)
+    //         var dayToShipInput = $('#days-to-ship-input');
+    //         if (data.data.response.days_to_ship_limit) {
+    //             dayToShipInput.attr({
+    //                 "max": data.data.response.days_to_ship_limit.max_limit,
+    //                 "min": data.data.response.days_to_ship_limit.min_limit
+    //             });
+    //         }
     //     })
+            //
+            //
+            fetch("/shopee/get_size_chart/", {
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": csrftoken // Include CSRF token in headers
+                },
+                body: JSON.stringify(dataToSend),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // 'data' is now the JSON response from Django
+                    console.log('Getting size chart...')
+                    console.log(data.data)
+                })
+            //
+            // fetch("/shopee/get_item_limit/", {
+            //     method: 'POST',
+            //     headers: {
+            //         "X-CSRFToken": csrftoken // Include CSRF token in headers
+            //     },
+            //     body: JSON.stringify(dataToSend),
+            // })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // 'data' is now the JSON response from Django
+            //         console.log('Getting item limit...')
+            //         console.log(data.data)
+            //     })
+            //
+            // fetch("/shopee/get_channel_list/", {
+            //     method: 'POST',
+            //     headers: {
+            //         "X-CSRFToken": csrftoken // Include CSRF token in headers
+            //     },
+            //     body: JSON.stringify(dataToSend),
+            // })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // 'data' is now the JSON response from Django
+            //         console.log('Getting channel list...')
+            //         console.log(data.data)
+            //     })
 
 
-    // fetch("/shopee/get_size_chart/", {
-    //     method: 'POST',
-    //     headers: {
-    //         "X-CSRFToken": csrftoken // Include CSRF token in headers
-    //     },
-    //     body: JSON.stringify(dataToSend),
-    // })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         // 'data' is now the JSON response from Django
-    //         console.log('Getting size chart...')
-    //         console.log(data.data)
-    //     })
+            quitModal();
+        }
 
-    // fetch("/shopee/get_item_limit/", {
-    //     method: 'POST',
-    //     headers: {
-    //         "X-CSRFToken": csrftoken // Include CSRF token in headers
-    //     },
-    //     body: JSON.stringify(dataToSend),
-    // })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         // 'data' is now the JSON response from Django
-    //         console.log('Getting item limit...')
-    //         console.log(data.data)
-    //     })
+    function loadFormAfterSaveCate(attributeLists) {
+        var detailInfo = document.querySelector('#detail-info-content');
+        detailInfo.innerHTML = '';
+        document.querySelector('#detail-info').removeAttribute('style');
+        const divDetail = document.createElement('div');
+        divDetail.setAttribute('class', 'row');
+        attributeLists.forEach(attribute => {
+            const div = document.createElement('div');
+            div.setAttribute('class', 'form-group col-md-6 my-2');
 
-    // fetch("/shopee/get_channel_list/", {
-    //     method: 'POST',
-    //     headers: {
-    //         "X-CSRFToken": csrftoken // Include CSRF token in headers
-    //     },
-    //     body: JSON.stringify(dataToSend),
-    // })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         // 'data' is now the JSON response from Django
-    //         console.log('Getting channel list...')
-    //         console.log(data.data)
-    //     })
+            const label = document.createElement('label');
+            label.setAttribute('for', attribute.attribute_id);
+            label.text = attribute.display_attribute_name;
+            label.innerText = attribute.display_attribute_name;
+            div.appendChild(label);
 
+            if (attribute.input_type == 'COMBO_BOX') {
+                const select = document.createElement('select');
+                select.setAttribute('id', attribute.attribute_id);
+                select.setAttribute('class', 'form-control col-md-6');
+                attribute.attribute_value_list.forEach(valueList => {
+                    const option = document.createElement('option');
+                    option.value = valueList.value_id;
+                    option.text = valueList.display_value_name;
+                    select.appendChild(option)
+                });
+                div.appendChild(select);
+            } else {
+                const input = document.createElement('input');
+                let type = '';
+                input.setAttribute('id', attribute.attribute_id);
+                input.setAttribute('class', 'form-control');
+                if (attribute.input_validation_type == 'DATE_TYPE') {
+                    type = 'date'
+                } else {
+                    type = 'text'
+                }
+                input.setAttribute('type', type);
+                div.appendChild(input);
+            }
+            divDetail.appendChild(div);
+        });
+        detailInfo.appendChild(divDetail);
+    }
 
-    quitModal();
-}
-
-function loadFormAfterSaveCate(attributeLists,) {
-    var detailInfo = document.querySelector('#detail-info-content');
-    detailInfo.innerHTML = '';
-    document.querySelector('#detail-info').removeAttribute('style');
-    const divDetail = document.createElement('div');
-    divDetail.setAttribute('class', 'row');
-    attributeLists.forEach(attribute => {
+    function loadBrands(attribute) {
+        var detailInfo = document.querySelector('#detail-info-content');
         const div = document.createElement('div');
         div.setAttribute('class', 'form-group col-md-6 my-2');
 
         const label = document.createElement('label');
         label.setAttribute('for', attribute.attribute_id);
-        label.text = attribute.display_attribute_name;
-        label.innerText = attribute.display_attribute_name;
+        label.text = "Thương hiệu";
+        label.innerText = "Thương hiệu";
         div.appendChild(label);
 
-        if (attribute.input_type == 'COMBO_BOX') {
-            const select = document.createElement('select');
-            select.setAttribute('id', attribute.attribute_id);
-            select.setAttribute('class', 'form-control col-md-6');
-            attribute.attribute_value_list.forEach(valueList => {
-                const option = document.createElement('option');
-                option.value = valueList.value_id;
-                option.text = valueList.display_value_name;
-                select.appendChild(option)
-            });
-            div.appendChild(select);
-        } else {
-            const input = document.createElement('input');
-            let type = '';
-            input.setAttribute('id', attribute.attribute_id);
-            input.setAttribute('class', 'form-control');
-            if (attribute.input_validation_type == 'DATE_TYPE') {
-                type = 'date'
-            } else {
-                type = 'text'
-            }
-            input.setAttribute('type', type);
-            div.appendChild(input);
-        }
-        divDetail.appendChild(div);
+        // if (attribute.input_type == 'DROP_DOWN') {
+        const select = document.createElement('select');
+        select.setAttribute('id', attribute.attribute_id);
+        select.setAttribute('class', 'form-control col-md-6');
+        attribute.brand_list.forEach(valueList => {
+            const option = document.createElement('option');
+            option.value = valueList.brand_id;
+            option.text = valueList.display_brand_name;
+            select.appendChild(option)
+        });
+        div.appendChild(select);
+        // } else {
+        //     const input = document.createElement('input');
+        //     let type = '';
+        //     input.setAttribute('id', attribute.attribute_id);
+        //     input.setAttribute('class', 'form-control');
+        //     if (attribute.input_validation_type == 'DATE_TYPE') {
+        //         type = 'date'
+        //     } else {
+        //         type = 'text'
+        //     }
+        //     input.setAttribute('type', type);
+        //     div.appendChild(input);
+        // }
+
+        detailInfo.appendChild(div);
+    }
+
+    function quitModal() {
+        const modalForm = document.getElementById('LoginForm')
+        const modal = bootstrap.Modal.getInstance(modalForm);
+        modal.hide()
+    }
+
+    function ready(cb) {
+        document.readyState === 'loading'
+            ? document.addEventListener('DOMContentLoaded', function () {
+                cb();
+            })
+            : cb();
+    }
+
+    ready(function () {
+        initEvent();
     });
-    detailInfo.appendChild(divDetail);
-}
 
-function quitModal() {
-    const modalForm = document.getElementById('LoginForm')
-    const modal = bootstrap.Modal.getInstance(modalForm);
-    modal.hide()
-}
-
-function ready(cb) {
-    document.readyState === 'loading'
-        ? document.addEventListener('DOMContentLoaded', function () {
-            cb();
-        })
-        : cb();
-}
-
-ready(function () {
-    initEvent();
-});
-
-function initData() {
-}
-
-function initEvent() {
-
-}
-
-function f1() {
-    let index = parseInt(this.dataset.index);
-    document.getElementById('file-img-' + index).click();
-}
-
-function f2() {
-    let index = parseInt(this.dataset.index);
-    let file = this.files[0];
-    document.getElementById(`img-preview-${index}`).src = URL.createObjectURL(file);
-    document.getElementById(`bi-card-image-${index}`).classList.add('d-none');
-}
-
-function initEventImg() {
-    let previewImg = document.getElementsByClassName('preview-img');
-    for (let i = 0; i < previewImg.length; i++) {
-        previewImg[i].removeEventListener('change', f1);
-        previewImg[i].addEventListener('click', f1);
+    function initData() {
     }
 
-    let fileImg = document.getElementsByClassName('file-img');
-    for (let i = 0; i < fileImg.length; i++) {
-        fileImg[i].removeEventListener('change', f2);
-        fileImg[i].addEventListener('change', f2);
+    function initEvent() {
 
     }
-}
 
-function addClassify(ctx) {
-    ctx.classList.add('d-none');
+    function f1() {
+        let index = parseInt(this.dataset.index);
+        document.getElementById('file-img-' + index).click();
+    }
 
-    // Thêm một nhóm phân loại vào trong danh sách
-    let index = document.querySelectorAll('#list-classify .classify-item').length;
+    function f2() {
+        let index = parseInt(this.dataset.index);
+        let file = this.files[0];
+        document.getElementById(`img-preview-${index}`).src = URL.createObjectURL(file);
+        document.getElementById(`bi-card-image-${index}`).classList.add('d-none');
+    }
 
-    // Nhóm phân loại 1
-    let html = `
+    function initEventImg() {
+        let previewImg = document.getElementsByClassName('preview-img');
+        for (let i = 0; i < previewImg.length; i++) {
+            previewImg[i].removeEventListener('change', f1);
+            previewImg[i].addEventListener('click', f1);
+        }
+
+        let fileImg = document.getElementsByClassName('file-img');
+        for (let i = 0; i < fileImg.length; i++) {
+            fileImg[i].removeEventListener('change', f2);
+            fileImg[i].addEventListener('change', f2);
+
+        }
+    }
+
+    function addClassify(ctx) {
+        ctx.classList.add('d-none');
+
+        // Thêm một nhóm phân loại vào trong danh sách
+        let index = document.querySelectorAll('#list-classify .classify-item').length;
+
+        // Nhóm phân loại 1
+        let html = `
                 <div class="classify-item">
                     <div class="d-flex mb-3">
                         <div class="col-2 type-title">Nhóm phân loại 1</div>
@@ -355,8 +402,8 @@ function addClassify(ctx) {
                 </div>
                 `;
 
-    // Nhóm phân loại 2
-    html += `
+        // Nhóm phân loại 2
+        html += `
                 <div class="classify-item">
                     <div class="d-flex mb-3">
                         <div class="col-2 type-title">Nhóm phân loại 2</div>
@@ -425,10 +472,10 @@ function addClassify(ctx) {
                 </div>
                 `;
 
-    document.getElementById('list-classify').insertAdjacentHTML('beforeend', html);
+        document.getElementById('list-classify').insertAdjacentHTML('beforeend', html);
 
 
-    let tbody = `
+        let tbody = `
             <tr id="row-0" data-index="0">
                 <td class="column1">
                     <input type="file" id="file-img-0" data-index="0" class="file-img"
@@ -458,7 +505,7 @@ function addClassify(ctx) {
             </tr>
             `;
 
-    let thead = `
+        let thead = `
             <tr>
                 <th id="column-0">Nhóm phân loại 1</th>
                 <th>Giá</th>
@@ -466,94 +513,94 @@ function addClassify(ctx) {
                 <th>SKU phân loại</th>
             </tr>`;
 
-    document.querySelector('#my-tbl thead').innerHTML = thead;
-    document.querySelector('#my-tbl tbody').innerHTML = tbody;
-    initEventImg();
-}
+        document.querySelector('#my-tbl thead').innerHTML = thead;
+        document.querySelector('#my-tbl tbody').innerHTML = tbody;
+        initEventImg();
+    }
 
-function changeClassify(ctx) {
-    let index = parseInt(ctx.dataset.index);
-    let input = ctx.value.trim();
+    function changeClassify(ctx) {
+        let index = parseInt(ctx.dataset.index);
+        let input = ctx.value.trim();
 
-    if (input.length > 20) {
-        ctx.value = input.slice(0, 20);
-    } else {
-        if (input.length == 0) {
-            document.getElementById(`error-${index}`).innerHTML =
-                'Không được để trống ô';
+        if (input.length > 20) {
+            ctx.value = input.slice(0, 20);
         } else {
-            document.getElementById(`error-${index}`).innerHTML = '';
+            if (input.length == 0) {
+                document.getElementById(`error-${index}`).innerHTML =
+                    'Không được để trống ô';
+            } else {
+                document.getElementById(`error-${index}`).innerHTML = '';
+            }
+        }
+
+        document.getElementById(`count-char-${index}`).innerHTML =
+            ctx.value.trim().length + '/20';
+
+        // Các thay đổi trên bảng
+        if (input.length > 0) {
+            document.querySelector(`#column-${index}`).innerHTML = input;
+        } else {
+            document.querySelector(`#column-${index}`).innerHTML = 'Nhóm phân loại ' + (index + 1);
+
         }
     }
 
-    document.getElementById(`count-char-${index}`).innerHTML =
-        ctx.value.trim().length + '/20';
+    let active2 = false;
 
-    // Các thay đổi trên bảng
-    if (input.length > 0) {
-        document.querySelector(`#column-${index}`).innerHTML = input;
-    } else {
-        document.querySelector(`#column-${index}`).innerHTML = 'Nhóm phân loại ' + (index + 1);
+    function activeAddClassify(ctx) {
+        active2 = true;
+        ctx.classList.add('d-none');
+        let index = parseInt(ctx.dataset.index);
+        document.querySelector('.wrapper-classify-inp').classList.remove('d-none');
+        document.querySelector('.wrapper-classify-content').classList.remove('d-none');
 
-    }
-}
+        document.querySelectorAll('.icon-remove-classify-item')[1].classList.remove('d-none');
 
-let active2 = false;
+        // Các thay đổi trong bảng
+        let th = `<th id="column-${index}">Nhóm phân loại 2</th>`;
+        document.querySelector(`#my-tbl thead #column-0`).insertAdjacentHTML('afterend', th);
 
-function activeAddClassify(ctx) {
-    active2 = true;
-    ctx.classList.add('d-none');
-    let index = parseInt(ctx.dataset.index);
-    document.querySelector('.wrapper-classify-inp').classList.remove('d-none');
-    document.querySelector('.wrapper-classify-content').classList.remove('d-none');
-
-    document.querySelectorAll('.icon-remove-classify-item')[1].classList.remove('d-none');
-
-    // Các thay đổi trong bảng
-    let th = `<th id="column-${index}">Nhóm phân loại 2</th>`;
-    document.querySelector(`#my-tbl thead #column-0`).insertAdjacentHTML('afterend', th);
-
-    let cell = `
+        let cell = `
             <td class="column2">
                 <div style="width: 100%; min-height: 30px;">
                     <div class="child-list" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; width: 100%;min-height: 100%;"></div>
                 </div>
             </td>
             `;
-    let tr = document.querySelectorAll('#my-tbl tbody tr');
-    for (let i = 0; i < tr.length; i++) {
-        tr[i].querySelector('td.column1').insertAdjacentHTML('afterend', cell);
+        let tr = document.querySelectorAll('#my-tbl tbody tr');
+        for (let i = 0; i < tr.length; i++) {
+            tr[i].querySelector('td.column1').insertAdjacentHTML('afterend', cell);
+        }
     }
-}
 
-function changeInputType(ctx) {
-    let parentIndex = parseInt(ctx.dataset.parentIndex);
-    let index = parseInt(ctx.dataset.index);
-    let input = ctx.value.trim();
+    function changeInputType(ctx) {
+        let parentIndex = parseInt(ctx.dataset.parentIndex);
+        let index = parseInt(ctx.dataset.index);
+        let input = ctx.value.trim();
 
-    ctx.setAttribute('data-active', true);
+        ctx.setAttribute('data-active', true);
 
-    document.getElementById(`trash-${parentIndex}-${index}`).removeAttribute('hidden');
+        document.getElementById(`trash-${parentIndex}-${index}`).removeAttribute('hidden');
 
-    if (input.length > 20) {
-        ctx.value = input.slice(0, 20);
-    } else {
-        if (input.length == 0) {
-            document.getElementById(`error-${parentIndex}-${index}`).innerHTML =
-                'Không được để trống ô';
-
-            if (parentIndex == 0) {
-                document.querySelector(`#classify-type-name-${index}`).innerHTML = '';
-            }
-            if (parentIndex == 1) {
-                ctx.setAttribute('data-active', false);
-                fillList(parentIndex)
-            }
+        if (input.length > 20) {
+            ctx.value = input.slice(0, 20);
         } else {
-            document.getElementById(`error-${parentIndex}-${index}`).innerHTML = '';
+            if (input.length == 0) {
+                document.getElementById(`error-${parentIndex}-${index}`).innerHTML =
+                    'Không được để trống ô';
 
-            if (parentIndex == 0 && !document.querySelector(`#my-tbl tbody #row-${index}`)) {
-                let tbody = `
+                if (parentIndex == 0) {
+                    document.querySelector(`#classify-type-name-${index}`).innerHTML = '';
+                }
+                if (parentIndex == 1) {
+                    ctx.setAttribute('data-active', false);
+                    fillList(parentIndex)
+                }
+            } else {
+                document.getElementById(`error-${parentIndex}-${index}`).innerHTML = '';
+
+                if (parentIndex == 0 && !document.querySelector(`#my-tbl tbody #row-${index}`)) {
+                    let tbody = `
                         <tr id="row-${index}" data-index="${index}">
                             <td class="column1">
                                 <input type="file" id="file-img-${index}" data-index="${index}" class="file-img"
@@ -582,39 +629,39 @@ function changeInputType(ctx) {
                             </td>
                         </tr>
                         `;
-                document.querySelector('#my-tbl tbody').insertAdjacentHTML('beforeend', tbody);
-                initEventImg();
-                if (active2) {
-                    let cell = `
+                    document.querySelector('#my-tbl tbody').insertAdjacentHTML('beforeend', tbody);
+                    initEventImg();
+                    if (active2) {
+                        let cell = `
                             <td class="column2">
                                 <div style="width: 100%; min-height: 30px;">
                                     <div class="child-list" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; width: 100%;min-height: 100%;"></div>
                                 </div>
                             </td>
                             `;
-                    document.querySelector(`#row-${index} td.column1`).insertAdjacentHTML('afterend', cell);
+                        document.querySelector(`#row-${index} td.column1`).insertAdjacentHTML('afterend', cell);
+                        fillList(parentIndex);
+                    }
+                } else {
+                    let classifyName = document.querySelector(`#classify-type-${parentIndex}-${index}`).value.trim();
+                    parentIndex == 0 ? document.querySelector(`#classify-type-name-${index}`).innerHTML = classifyName : '';
+                }
+
+                if (parentIndex == 1) {
                     fillList(parentIndex);
                 }
-            } else {
-                let classifyName = document.querySelector(`#classify-type-${parentIndex}-${index}`).value.trim();
-                parentIndex == 0 ? document.querySelector(`#classify-type-name-${index}`).innerHTML = classifyName : '';
-            }
-
-            if (parentIndex == 1) {
-                fillList(parentIndex);
             }
         }
-    }
 
-    document.getElementById(`count-char-${parentIndex}-${index}`).innerHTML =
-        ctx.value.trim().length + '/20';
+        document.getElementById(`count-char-${parentIndex}-${index}`).innerHTML =
+            ctx.value.trim().length + '/20';
 
-    let isExist = document.querySelector(
-        `#type-${parentIndex}-${index}`
-    ).nextElementSibling;
+        let isExist = document.querySelector(
+            `#type-${parentIndex}-${index}`
+        ).nextElementSibling;
 
-    if (!isExist) {
-        let html = `
+        if (!isExist) {
+            let html = `
                     <div id="type-${parentIndex}-${index + 1}" class="col-6 type wrapper-inp">
                         <div class="d-flex align-items-center">
                             <div class="input-group input-group-sm">
@@ -634,7 +681,7 @@ function changeInputType(ctx) {
                                 >
                             </div>
                             <button class="btn btn-sm trash" id="trash-${parentIndex}-${index + 1
-        }" hidden onclick="removeType(this, ${parentIndex},${index})">
+            }" hidden onclick="removeType(this, ${parentIndex},${index})">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -642,78 +689,78 @@ function changeInputType(ctx) {
                     </div>
                     `;
 
-        document
-            .getElementById('list-type-' + parentIndex)
-            .insertAdjacentHTML('beforeend', html);
-    }
-}
-
-function fillList(parentIndex) {
-    let column2 = document.querySelectorAll('td.column2');
-
-    let listInputActive = document.querySelectorAll('#list-type-' + parentIndex + ' input[data-active="true"]');
-    let listItem = ``;
-    for (let i = 0; i < listInputActive.length; i++) {
-        listItem += `<div>${listInputActive[i].value.trim()}</div>`;
-    }
-
-    for (let i = 0; i < column2.length; i++) {
-        column2[i].querySelector('div.child-list').innerHTML = listItem;
-    }
-}
-
-function removeType(ctx, parentIndex, index) {
-    ctx.parentElement.parentElement.remove();
-    if (parentIndex == 0) {
-        document.querySelector('#row-' + index).remove();
-    }
-    fillList(parentIndex);
-}
-
-function removeClassifyItem(ctx) {
-    let index = parseInt(ctx.dataset.index);
-
-    // Kiểm tra danh sách xem còn loại nào không
-    if (document.querySelectorAll('#list-classify .classify-item').length == 0) {
-        document.querySelector('#btn-add-classify').classList.remove('d-none');
-    }
-
-    if (index === 0) {
-        let listClassifyItems = document.querySelectorAll('#list-classify .classify-item');
-        for (let i = 0; i < listClassifyItems.length; i++) {
-            listClassifyItems[i].remove();
+            document
+                .getElementById('list-type-' + parentIndex)
+                .insertAdjacentHTML('beforeend', html);
         }
-        document.querySelector('#btn-add-classify').classList.remove('d-none');
-        document.querySelector('#my-tbl thead').innerHTML = '';
-        document.querySelector('#my-tbl tbody').innerHTML = '';
-    } else {
-        ctx.classList.add('d-none');
+    }
 
-        active2 = false;
+    function fillList(parentIndex) {
+        let column2 = document.querySelectorAll('td.column2');
 
-        // Xoá tất cả cột thứ 2 trong bảng
-        document.querySelector('#column-1').remove();
-        let column2 = document.querySelectorAll('.column2');
+        let listInputActive = document.querySelectorAll('#list-type-' + parentIndex + ' input[data-active="true"]');
+        let listItem = ``;
+        for (let i = 0; i < listInputActive.length; i++) {
+            listItem += `<div>${listInputActive[i].value.trim()}</div>`;
+        }
+
         for (let i = 0; i < column2.length; i++) {
-            column2[i].remove();
+            column2[i].querySelector('div.child-list').innerHTML = listItem;
         }
-
-        let listTypes = document.querySelectorAll(`#list-type-${index} .type`);
-        for (let i = 0; i < listTypes.length; i++) {
-            if (i === 0) {
-                document.querySelector(`#classify-${index}`).value = '';
-                document.querySelector(`#count-char-${index}`).innerHTML = '0/20';
-
-                listTypes[i].querySelector(`#classify-type-${index}-0`).value = '';
-                document.querySelector(`#count-char-${index}-0`).innerHTML = '0/20';
-
-                document.querySelector('.wrapper-classify-inp').classList.add('d-none');
-                document.querySelector('.wrapper-classify-content').classList.add('d-none');
-            } else {
-                listTypes[i].remove();
-            }
-        }
-        document.querySelector('#btn-active-classify').classList.remove('d-none');
-        document.querySelector('#list-classify .classify-item .wrapper-classify-inp').classList.add('d-none');
     }
-}
+
+    function removeType(ctx, parentIndex, index) {
+        ctx.parentElement.parentElement.remove();
+        if (parentIndex == 0) {
+            document.querySelector('#row-' + index).remove();
+        }
+        fillList(parentIndex);
+    }
+
+    function removeClassifyItem(ctx) {
+        let index = parseInt(ctx.dataset.index);
+
+        // Kiểm tra danh sách xem còn loại nào không
+        if (document.querySelectorAll('#list-classify .classify-item').length == 0) {
+            document.querySelector('#btn-add-classify').classList.remove('d-none');
+        }
+
+        if (index === 0) {
+            let listClassifyItems = document.querySelectorAll('#list-classify .classify-item');
+            for (let i = 0; i < listClassifyItems.length; i++) {
+                listClassifyItems[i].remove();
+            }
+            document.querySelector('#btn-add-classify').classList.remove('d-none');
+            document.querySelector('#my-tbl thead').innerHTML = '';
+            document.querySelector('#my-tbl tbody').innerHTML = '';
+        } else {
+            ctx.classList.add('d-none');
+
+            active2 = false;
+
+            // Xoá tất cả cột thứ 2 trong bảng
+            document.querySelector('#column-1').remove();
+            let column2 = document.querySelectorAll('.column2');
+            for (let i = 0; i < column2.length; i++) {
+                column2[i].remove();
+            }
+
+            let listTypes = document.querySelectorAll(`#list-type-${index} .type`);
+            for (let i = 0; i < listTypes.length; i++) {
+                if (i === 0) {
+                    document.querySelector(`#classify-${index}`).value = '';
+                    document.querySelector(`#count-char-${index}`).innerHTML = '0/20';
+
+                    listTypes[i].querySelector(`#classify-type-${index}-0`).value = '';
+                    document.querySelector(`#count-char-${index}-0`).innerHTML = '0/20';
+
+                    document.querySelector('.wrapper-classify-inp').classList.add('d-none');
+                    document.querySelector('.wrapper-classify-content').classList.add('d-none');
+                } else {
+                    listTypes[i].remove();
+                }
+            }
+            document.querySelector('#btn-active-classify').classList.remove('d-none');
+            document.querySelector('#list-classify .classify-item .wrapper-classify-inp').classList.add('d-none');
+        }
+    }
