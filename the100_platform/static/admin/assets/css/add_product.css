@@ -1,7 +1,21 @@
 .scrollable-list {
     max-height: 300px; /* Adjust the height as needed */
     overflow-y: auto;
+    cursor: pointer;
 }
+
+.scrollable-list::-webkit-scrollbar {
+    width: 5px !important;
+}
+
+.scrollable-list li[data-clicked="true"]{
+    color: #ee4d2d;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+
 .inactive .card-title,.panel-inactive-content{
     color: #999;
 }

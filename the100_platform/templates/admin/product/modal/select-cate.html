@@ -14,9 +14,10 @@
                                 {% for category in list_categories%}
                                 <li>
                                                 <span id="{{category.id}}"
-                                                      onclick="chooseCategory({{category.id}}, 'children-1','{{category.display_category_name}}')">{{category.display_category_name}}</span>
+                                                    data-can-click="{{category.has_children}}"
+                                                      onclick="chooseCategory(this, {{category.id}}, 'children-1','{{category.display_category_name}}')">{{category.display_category_name}}</span>
                                     {% if category.has_children%}
-                                    <span class="category-item-right"> > </span>
+                                    <span class="category-item-right" style="font-size: 20px;"> &rsaquo; </span>
                                     {% endif %}
                                 </li>
                                 {% endfor %}
@@ -29,13 +30,15 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <span id="chosenCategories">Đã chọn: </span>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="quitModal()">
-                    Close
-                </button>
-                <button type="button" class="btn btn-primary" onclick="saveChoosenCategory()">Save changes
-                </button>
+            <div class="modal-footer d-flex align-items-center justify-content-between">
+                <span id="chosenCategories"></span>
+                <div class="d-flex align-items-center justify-content-center">
+                    <button type="button" class="btn btn-secondary ms-2" data-dismiss="modal" onclick="quitModal()">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary ms-2" id="btn-save-change" onclick="saveChoosenCategory()">Save changes
+                    </button>
+                </div>
             </div>
         </div>
     </div>
