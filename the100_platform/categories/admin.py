@@ -7,8 +7,8 @@ from .models import Category
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'parent_category_id', 'original_category_name', 'display_category_name', 'has_children', 'status',
+        'id', 'name', 'status',
         'created_at',
         'updated_at')
-    list_filter = ('display_category_name', 'parent_category_id', 'has_children',)
-    search_fields = ('display_category_name', 'original_category_name', 'parent_category_id',)
+    list_filter = ('name', 'status',)
+    search_fields = ('name', 'status')
