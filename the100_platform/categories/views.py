@@ -4,11 +4,11 @@ from .forms import CategoryForm
 
 def category_list(request):
     categories = Category.objects.all()
-    return render(request, 'list.html', {'categories': categories})
+    return render(request, 'category_list.html', {'categories': categories})
 
 def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
-    return render(request, 'detail.html', {'category': category})
+    return render(request, 'category_detail.html', {'category': category})
 
 def category_create(request):
     if request.method == 'POST':
@@ -18,7 +18,7 @@ def category_create(request):
             return redirect('category_list')
     else:
         form = CategoryForm()
-    return render(request, 'form.html', {'form': form})
+    return render(request, 'category_form.html', {'form': form})
 
 def category_update(request, pk):
     category = get_object_or_404(Category, pk=pk)
@@ -26,10 +26,10 @@ def category_update(request, pk):
         form = CategoryForm(request.POST, instance=category)
         if form.is_valid():
             form.save()
-            return redirect('list')
+            return redirect('category_list')
     else:
         form = CategoryForm(instance=category)
-    return render(request, 'form.html', {'form': form})
+    return render(request, 'category_form.html', {'form': form})
 
 def category_delete(request, pk):
     category = get_object_or_404(Category, pk=pk)
