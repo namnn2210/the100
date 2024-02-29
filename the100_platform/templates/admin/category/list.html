@@ -1,134 +1,17 @@
-{% include  'admin/partials/main.html' %}
-{% load static %}
-
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    {% include 'admin/partials/title-meta.html' %}
-    <!-- Css -->
-    <link href="{% static 'assets/libs/simplebar/simplebar.min.css' %}" rel="stylesheet">
-    {% include 'admin/partials/head-css.html' %}
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category List</title>
 </head>
-
-{% include 'admin/partials/body.html' %}
-
-<div class="page-wrapper toggled">
-    {% include 'admin/partials/sidebar-dark.html' %}
-
-    <!-- Start Page Content -->
-    <main class="page-content bg-light">
-        {% include 'admin/partials/top-header.html' %}
-
-        <div class="container-fluid">
-            <div class="layout-specing">
-                <div class="d-md-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Danh sách danh mục</h5>
-
-                    <nav aria-label="breadcrumb" class="d-inline-block mt-2 mt-sm-0">
-                        <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                            <li class="breadcrumb-item text-capitalize"><a href="{% url 'admin_index' %}">The100</a></li>
-                            <li class="breadcrumb-item text-capitalize active" aria-current="page">Danh sách danh mục</li>
-                        </ul>
-                    </nav>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 mt-4">
-                        <div class="card border-0 rounded shadow p-4">
-                            <div class="table-responsive shadow rounded-bottom" data-simplebar style="height: 545px;">
-                                <table class="table table-center bg-white mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th class="border-bottom p-3">ID danh mục</th>
-                                        <th class="border-bottom p-3" style="min-width: 220px;">ID danh mục cha</th>
-                                        <th class="text-center border-bottom p-3">Tên danh mục hiển thị</th>
-                                        <th class="text-center border-bottom p-3" style="min-width: 150px;">
-                                            Tên danh mục gốc
-                                        </th>
-                                        <th class="text-center border-bottom p-3">Có danh mục con</th>
-                                        <th class="text-center border-bottom p-3">Trạng thái</th>
-                                        <th class="text-end border-bottom p-3" style="min-width: 100px;">Ngày khởi tạo
-                                        </th>
-                                        <th class="text-end border-bottom p-3" style="min-width: 100px;">Ngày cập nhật
-                                        </th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <!-- Start -->
-                                    {% for category in category_page%}
-                                    <tr>
-                                        <th class="p-3">{{category.id}}1111</th>
-                                        <td class="text-center p-3">{{category.parent_category_id}}</td>
-                                        <td class="p-3">
-                                            <a href="#" class="text-primary">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="ms-2">{{category.display_category_name}}</span>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td class="text-center p-3">{{category.original_category_name}}</td>
-                                        <td class="text-center p-3">
-                                            {% if category.has_children %}
-                                            <span class="badge rounded-pill bg-soft-success"> Có </span>
-                                            {% else %}
-                                            <span class="badge rounded-pill bg-soft-danger"> Không </span>
-                                            {% endif %}
-                                        </td>
-                                        <td class="text-center p-3">
-                                            {% if category.status %}
-                                            <span class="badge rounded-pill bg-soft-success"> Hoạt động </span>
-                                            {% else %}
-                                            <span class="badge rounded-pill bg-soft-danger"> Không hoạt động </span>
-                                            {% endif %}
-                                        </td>
-                                        <td class="text-end p-3">
-                                            <a href="invoice.html" class="btn btn-sm btn-primary">{{category.created_at}}</a>
-                                        </td>
-                                        <td class="text-end p-3">
-                                            <a href="invoice.html" class="btn btn-sm btn-primary">{{category.updated_at}}</a>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                    <!-- End -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <ul class="pagination mb-0">
-                                {% if category_page.has_previous %}
-                                <li class="page-item"><a class="page-link" href="?page={{ category_page.previous_page_number }}"
-                                                         aria-label="Previous">Prev</a></li>
-                                {% endif %}
-                                {% for i in category_page.paginator.page_range %}
-                                <li class="page-item{% if category_page.number == i %} active{% endif %}"><a class="page-link" href="?page={{ i }}">{{i}}</a>
-                                </li>
-                                {% endfor %}
-                                {% if category_page.has_next %}
-                                <li class="page-item"><a class="page-link" href="?page={{ category_page.next_page_number }}"
-                                                         aria-label="Next">Next</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div>
-        </div><!--end container-->
-
-        {% include 'admin/partials/footer.html' %}
-    </main>
-    <!--End page-content" -->
-</div>
-<!-- page-wrapper -->
-
-{% include 'admin/partials/offcanvas-right.html' %}
-
-<!-- javascript -->
-{% include 'admin/partials/vendor-scripts.html' %}
-<script src="{% static 'admin/assets/libs/simplebar/simplebar.min.js' %}"></script>
-<!-- Main Js -->
-<script src="{% static 'admin/assets/js/plugins.init.js' %}"></script>
-<script src="{% static 'admin/assets/js/app.js' %}"></script>
-
+<body>
+    <h1>Category List</h1>
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'category_detail' category.id %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_category' %}">Create New Category</a>
 </body>
-
 </html>

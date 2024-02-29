@@ -1,39 +1,36 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .models import Category
-from .forms import CategoryForm
 
-def category_list(request):
-    categories = Category.objects.all()
-    return render(request, 'category_list.html', {'categories': categories})
-
-def category_detail(request, pk):
-    category = get_object_or_404(Category, pk=pk)
-    return render(request, 'category_detail.html', {'category': category})
-
-def category_create(request):
+def create_category(request):
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('category_list')
-    else:
-        form = CategoryForm()
-    return render(request, 'category_form.html', {'form': form})
+        name = request.POST.get('name')
+        status = request.POST.get('status', True)  # Default status is True
+        category = Category.objects.create(name=name, status=status)
+        return redirect('category_list', category_id=category.id)
+    return render(request, 'admin/category/create.html')
 
-def category_update(request, pk):
-    category = get_object_or_404(Category, pk=pk)
+def category_detail(request, category_id):
+    category = Category.objects.get(pk=category_id)
+    return render(request, 'admin/category/detail.html', {'category': category})
+
+def update_category(request, category_id):
+    category = Category.objects.get(pk=category_id)
     if request.method == 'POST':
-        form = CategoryForm(request.POST, instance=category)
-        if form.is_valid():
-            form.save()
-            return redirect('category_list')
-    else:
-        form = CategoryForm(instance=category)
-    return render(request, 'category_form.html', {'form': form})
+        name = request.POST.get('name')
+        status = request.POST.get('status', True)  # Default status is True
+        category.name = name
+        category.status = status
+        category.save()
+        return redirect('category_detail', category_id=category.id)
+    return render(request, 'admin/category/detail.html', {'category': category})
 
-def category_delete(request, pk):
-    category = get_object_or_404(Category, pk=pk)
+def delete_category(request, category_id):
+    category = Category.objects.get(pk=category_id)
     if request.method == 'POST':
         category.delete()
         return redirect('category_list')
-    return render(request, 'category_confirm_delete.html', {'category': category})
+    return render(request, 'admin/category/delete.html', {'category': category})
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'admin/category/list.html', {'categories': categories})
