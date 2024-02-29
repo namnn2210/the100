@@ -9,7 +9,7 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.display_category_name
+        return self.name
 
     class Meta:
         db_table = 'categories'

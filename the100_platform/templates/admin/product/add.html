@@ -64,7 +64,11 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label class="form-label">Ngành hàng</label>
-                                    <select name="" id=""></select>
+                                    <select name="" id="">
+                                        {% for item in list_categories %}
+                                        <option value="{{item.id}}">{{ item.name }}</option>
+                                    {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-12">
