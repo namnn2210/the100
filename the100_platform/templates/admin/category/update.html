@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Category</title>
-</head>
-<body>
-    <h1>Update Category</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" value="{{ category.name }}" required><br>
-        <label for="status">Status:</label><br>
-        <input type="checkbox" id="status" name="status" {% if category.status %}checked{% endif %}><br>
-        <button type="submit">Update</button>
-    </form>
-</body>
-</html>
+{% extends 'admin/layout/admin.html' %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+</form>
+{% endblock %}
+
+

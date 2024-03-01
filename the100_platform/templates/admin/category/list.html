@@ -1,17 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category List</title>
-</head>
-<body>
-    <h1>Category List</h1>
-    <ul>
-        {% for category in categories %}
-            <li><a href="{% url 'category_detail' category.id %}">{{ category.name }}</a></li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'create_category' %}">Create New Category</a>
-</body>
-</html>
+{% extends 'admin/layout/admin.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        {% include 'admin/category/search.html' %}
+        <div class="my-2 w-100 d-flex justify-content-sm-end">
+            <a class="btn btn-sm btn-primary" href="/ui-button">Create</a>
+        </div>
+        <div class="table-responsive bg-white shadow rounded mt-4">
+            <table class=" table mb-0 table-center">
+                <thead class="bg-light">
+                <tr>
+                    <th scope="col" class="border-bottom" style="width: 5%;">No</th>
+                    <th scope="col" class="border-1" style="min-width: 35%;">Name</th>
+                    <th scope="col" class="border-bottom " style="width: 15%;">Status</th>
+                    <th scope="col" class="border-bottom" style="width: 15%;">Created At</th>
+                    <th scope="col" class="border-bottom" style="width: 15%;">Updated At</th>
+                    <th scope="col" class="border-bottom" style="width: 15%;">Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for item in list_item %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{% if item.status %}Active{% else %}Inactive{% endif %}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.updated_at }}</td>
+                    <td><a href="{% url 'update_category' item.id %}">Update</a></td>
+                    <!-- Thay đổi từ "Edit" thành "Update" -->
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination mt-3">
+                <span class="step-links">
+                    {% if list_item.has_previous %}
+                        <a href="?q={{ query }}&page=1">&laquo; first</a>
+                        <a href="?q={{ query }}&page={{ list_item.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ list_item.number }} of {{ list_item.paginator.num_pages }}.
+                    </span>
+
+                    {% if list_item.has_next %}
+                        <a href="?q={{ query }}&page={{ list_item.next_page_number }}">next</a>
+                        <a href="?q={{ query }}&page={{ list_item.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+        </div>
+
+        <Pagination className="mb-0 mt-3">
+            <PaginationItem>
+                <PaginationLink href="#" previous>
+                    Prev
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem active>
+                <PaginationLink href="#">
+                    1
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+                <PaginationLink href="#">
+                    2
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+                <PaginationLink href="#">
+                    3
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+                <PaginationLink href="#" next>
+                    Next
+                </PaginationLink>
+            </PaginationItem>
+        </Pagination>
+    </div>
+</div>
+{% endblock %}

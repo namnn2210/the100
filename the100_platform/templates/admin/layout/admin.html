@@ -11,95 +11,12 @@
     <meta name="website" content="">
     <meta name="Version" content="v4.7.0">
 
-
-    <link href='/static/admin/assets/libs/simplebar/simplebar.min.css' rel="stylesheet" type="text/css">
-    <link href='/static/admin/assets/css/bootstrap.min.css' id="bootstrap-style" class="theme-opt" rel="stylesheet"
-          type="text/css">
-    <link href='/static/admin/assets/css/font/bootstrap-icons.min.css' class="theme-opt" rel="stylesheet"
-          type="text/css">
-    <link href='/static/admin/assets/libs/%40mdi/font/css/materialdesignicons.min.css' rel="stylesheet" type="text/css">
-    <link href='/static/admin/assets/libs/%40iconscout/unicons/css/line.css' type="text/css" rel="stylesheet">
-    <link href='/static/admin/assets/css/style.min.css' id="color-opt" class="theme-opt" rel="stylesheet"
-          type="text/css">
-
+    {% include 'admin/layout/partials/css.html' %}
 </head>
 
 <body>
 <div class="page-wrapper toggled">
-
-    <!-- sidebar-wrapper -->
-    <nav id="sidebar" class="sidebar-wrapper sidebar-dark">
-        <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
-            <div class="sidebar-brand">
-                <a href="/admin/">
-                    <img src="/static/admin/assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                    <img src="/static/assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
-                    <span class="sidebar-colored">
-                    <img src="/static/assets/images/logo-light.png" height="24" alt="">
-                </span>
-                </a>
-            </div>
-
-            <ul class="sidebar-menu">
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="ti ti-home me-2"></i>Thống kê</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="index.html">Analytics</a></li>
-                            <li><a href="index-crypto.html">Cryptocurrency <span class="badge text-bg-danger">New</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="ti ti-browser me-2"></i>Sản phẩm</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="#">Danh sách sản phẩm</a></li>
-                            <li><a href="/admin/product/add/">Thêm sản phẩm</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="ti ti-apps me-2"></i>Danh mục sản phẩm</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="/admin/category/">Danh sách danh mục sản phẩm</a></li>
-                            <li><a href="email.html">Thêm danh mục sản phẩm</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="ti ti-user me-2"></i>Nhà cung cấp</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="profile.html">Danh mục nhà cung cấp</a></li>
-                            <li><a href="profile-setting.html">Thêm nhà cung cấp</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="sidebar-dropdown">
-                    <a href="javascript:void(0)"><i class="ti ti-brand-gravatar me-2"></i>Đơn hàng</a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li><a href="blog.html">Blogs</a></li>
-                            <li><a href="blog-detail.html">Blog Detail</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-            <!-- sidebar-menu  -->
-        </div>
-        <!-- Sidebar Footer -->
-        <ul class="sidebar-footer list-unstyled mb-0">
-            <li class="list-inline-item mb-0">
-                <a href="https://1.envato.market/landrick" target="_blank" class="btn btn-icon btn-soft-light"><i
-                        class="ti ti-shopping-cart"></i></a> <small class="text-muted fw-medium ms-1">Buy Now</small>
-            </li>
-        </ul>
-        <!-- Sidebar Footer -->
-    </nav>
-    <!-- sidebar-wrapper  -->
+    {% include 'admin/layout/partials/sidebar-dark.html' %}
 
     <!-- Start Page Content -->
     <main class="page-content bg-light">
@@ -258,44 +175,10 @@
         <!-- Top Header -->
 
         <div class="container-fluid">
-            <table>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Update</th> <!-- Thay đổi từ "Edit" thành "Update" -->
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr>
-                    <td>longld</td>
-                    <td>Active</td>
-                    <td>March 1, 2024, 5:31 p.m.</td>
-                    <td>March 1, 2024, 7:03 p.m.</td>
-                    <td><a href="/category/1/update/">Update</a></td> <!-- Thay đổi từ "Edit" thành "Update" -->
-                </tr>
-
-                <tr>
-                    <td>11=2</td>
-                    <td>Active</td>
-                    <td>March 1, 2024, 5:32 p.m.</td>
-                    <td>March 1, 2024, 7:03 p.m.</td>
-                    <td><a href="/category/2/update/">Update</a></td> <!-- Thay đổi từ "Edit" thành "Update" -->
-                </tr>
-
-                <tr>
-                    <td>11</td>
-                    <td>Active</td>
-                    <td>March 1, 2024, 5:33 p.m.</td>
-                    <td>March 1, 2024, 5:33 p.m.</td>
-                    <td><a href="/category/3/update/">Update</a></td> <!-- Thay đổi từ "Edit" thành "Update" -->
-                </tr>
-
-                </tbody>
-            </table>
+            <div class="layout-specing">
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
         <footer class="shadow py-3">
             <div class="container-fluid">
@@ -423,15 +306,6 @@
 </div>
 <!-- Offcanvas End -->
 
-
-<script src='/static/admin/assets/js/jquery.min'></script>
-<script src='/static/assets/libs/bootstrap/js/bootstrap.bundle.min'></script>
-<script src='/static/admin/assets/libs/simplebar/simplebar.min.js'></script>
-<script src='/static/admin/assets/libs/jquery-ui/jquery-ui.min.js'></script>
-<script src='/static/admin/assets/js/plugins.init.js'></script>
-<script src='/static/admin/assets/js/app.js'></script>
-<script src='/static/admin/assets/js/add_product.js'></script>
-<script src='/static/admin/assets/js/product'></script>
-<script src='/static/admin/assets/js/data_binder'></script>
+{% include 'admin/layout/partials/js.html' %}
 </body>
 </html>

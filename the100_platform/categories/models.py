@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 # Create your models here.
@@ -10,6 +11,11 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        super().clean()
+        if Category.objects.exclude(pk=self.pk).filter(name=self.name).exists():
+            raise ValidationError("A category with this name already exists.")
 
     class Meta:
         db_table = 'categories'
