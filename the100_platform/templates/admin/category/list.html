@@ -2,10 +2,26 @@
 {% block content %}
 <div class="row">
     <div class="col-lg-12">
-        {% include 'admin/category/search.html' %}
-        <div class="my-2 w-100 d-flex justify-content-sm-end">
-            <a class="btn btn-sm btn-primary" href="/ui-button">Create</a>
+
+        <div class="d-md-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Danh mục sản phẩm</h5>
+
+            <nav aria-label="breadcrumb" class="d-inline-block mt-2 mt-sm-0">
+                <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
+                    <li class="breadcrumb-item text-capitalize"><a href="{% url 'admin_index' %}">The100</a>
+                    </li>
+                    <li class="breadcrumb-item text-capitalize active" aria-current="page">Danh mục sản phẩm
+                    </li>
+                </ul>
+            </nav>
         </div>
+        <div class="mt-3">
+            {% include 'admin/category/search.html' %}
+            <div class="my-2 w-100 d-flex justify-content-sm-end">
+                <a class="btn btn-sm btn-primary" href="{% url 'create_category' %}">Create</a>
+            </div>
+        </div>
+
         <div class="table-responsive bg-white shadow rounded mt-4">
             <table class=" table mb-0 table-center">
                 <thead class="bg-light">
@@ -19,7 +35,7 @@
                 </tr>
                 </thead>
                 <tbody>
-
+                {% if total_item > 0 %}
                 {% for item in list_item %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
@@ -27,58 +43,65 @@
                     <td>{% if item.status %}Active{% else %}Inactive{% endif %}</td>
                     <td>{{ item.created_at }}</td>
                     <td>{{ item.updated_at }}</td>
-                    <td><a href="{% url 'update_category' item.id %}">Update</a></td>
+                    <td><a class="btn btn-sm btn-outline-info" href="{% url 'update_category' item.id %}"><i
+                            class="bi bi-pencil-square"></i></a></td>
                     <!-- Thay đổi từ "Edit" thành "Update" -->
                 </tr>
                 {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="6">No results</td>
+                </tr>
+                {% endif %}
+
                 </tbody>
             </table>
         </div>
-        <div class="pagination mt-3">
-                <span class="step-links">
-                    {% if list_item.has_previous %}
-                        <a href="?q={{ query }}&page=1">&laquo; first</a>
-                        <a href="?q={{ query }}&page={{ list_item.previous_page_number }}">previous</a>
-                    {% endif %}
 
-                    <span class="current">
-                        Page {{ list_item.number }} of {{ list_item.paginator.num_pages }}.
-                    </span>
+        {% if total_item > 0 %}
+        <div class="pagination mt-3 row">
+            <div class="col-12 my-1">
+                Page {{ list_item.number }} of {{ list_item.paginator.num_pages }}.
+            </div>
+            <div class="col-12">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {% if list_item.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ query }}&page=1" aria-label="First">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ query }}&page={{ list_item.previous_page_number }}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">Previous</span>
+                            </a>
+                        </li>
+                        {% endif %}
 
-                    {% if list_item.has_next %}
-                        <a href="?q={{ query }}&page={{ list_item.next_page_number }}">next</a>
-                        <a href="?q={{ query }}&page={{ list_item.paginator.num_pages }}">last &raquo;</a>
-                    {% endif %}
-                </span>
+                        <li class="page-item"><a class="page-link" href="#">{{ list_item.number }}</a></li>
+
+                        {% if list_item.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ query }}&page={{ list_item.next_page_number }}"
+                               aria-label="Next">
+                                <span aria-hidden="true">Next</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ query }}&page={{ list_item.paginator.num_pages }}"
+                               aria-label="Last">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
         </div>
+        {% endif %}
 
-        <Pagination className="mb-0 mt-3">
-            <PaginationItem>
-                <PaginationLink href="#" previous>
-                    Prev
-                </PaginationLink>
-            </PaginationItem>
-            <PaginationItem active>
-                <PaginationLink href="#">
-                    1
-                </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-                <PaginationLink href="#">
-                    2
-                </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-                <PaginationLink href="#">
-                    3
-                </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-                <PaginationLink href="#" next>
-                    Next
-                </PaginationLink>
-            </PaginationItem>
-        </Pagination>
     </div>
 </div>
 {% endblock %}

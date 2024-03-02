@@ -39,20 +39,20 @@ def delete_category(request, category_id):
     return render(request, 'admin/category/delete.html', {'category': category})
 
 def category_list(request):
-    query = request.GET.get('q','') # Lấy từ khóa tìm kiếm từ query string
-    page_number = request.GET.get('page') # Lấy số trang từ query string, mặc định là 1
+    keyword = request.GET.get('keyword','') # Lấy từ khóa tìm kiếm từ keyword string
+    page_number = request.GET.get('page') # Lấy số trang từ keyword string, mặc định là 1
 
-    if query:
-        categories = Category.objects.filter(name__icontains=query) # Lọc danh sách category theo từ khóa tìm kiếm
+    if keyword:
+        categories = Category.objects.filter(name__icontains=keyword) # Lọc danh sách category theo từ khóa tìm kiếm
     else:
         categories = Category.objects.all()
 
-    paginator = Paginator(categories, 2) # Chia danh sách category thành các trang, mỗi trang có 10 category
+    paginator = Paginator(categories, 10) # Chia danh sách category thành các trang, mỗi trang có 10 category
     try:
         list_item = paginator.page(page_number)
     except PageNotAnInteger:
         list_item = paginator.page(1)
     except EmptyPage:
         list_item = paginator.page(paginator.num_pages)
-
-    return render(request, 'admin/category/list.html', {'list_item': list_item, 'query': query})
+    total_item = paginator.count
+    return render(request, 'admin/category/list.html', {'list_item': list_item,'total_item': total_item, 'keyword': keyword})
