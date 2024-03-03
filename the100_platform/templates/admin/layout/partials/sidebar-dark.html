@@ -14,7 +14,7 @@
 
         <ul class="sidebar-menu">
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="ti ti-home me-2"></i>Thống kê</a>
+                <a href="javascript:void(0)"><i class="bi bi-bar-chart me-2"></i>Thống kê</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="index.html">Analytics</a></li>
@@ -23,7 +23,7 @@
                 </div>
             </li>
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="ti ti-browser me-2"></i>Sản phẩm</a>
+                <a href="javascript:void(0)"><i class="bi bi-briefcase me-2"></i>Sản phẩm</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="#">Danh sách sản phẩm</a></li>
@@ -31,24 +31,13 @@
                 </div>
             </li>
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="ti ti-apps me-2"></i>Danh mục sản phẩm</a>
-                <div class="sidebar-submenu">
-                    <ul>
-                        <li><a href="{% url 'list_category' %}">Danh sách danh mục sản phẩm</a></li>
-                    </ul>
-                </div>
+                <a href="{% url 'category_list' %}"><i class="bi bi-card-heading me-2"></i>Danh mục sản phẩm</a>
             </li>
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="ti ti-user me-2"></i>Nhà cung cấp</a>
-                <div class="sidebar-submenu">
-                    <ul>
-                        <li><a href="profile.html">Danh mục nhà cung cấp</a></li>
-                        <li><a href="profile-setting.html">Thêm nhà cung cấp</a></li>
-                    </ul>
-                </div>
+                <a href="{% url 'supplier_list' %}"><i class="bi bi-building-up me-2"></i>Nhà cung cấp</a>
             </li>
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="ti ti-brand-gravatar me-2"></i>Đơn hàng</a>
+                <a href="javascript:void(0)"><i class="bi bi-window-fullscreen me-2"></i>Đơn hàng</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="blog.html">Blogs</a></li>

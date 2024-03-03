@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Category(models.Model):
-    name = models.CharField(null=False, max_length=100, default='')
+    name = models.CharField(null=False, max_length=255, default='')
     status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -15,7 +15,7 @@ class Category(models.Model):
     def clean(self):
         super().clean()
         if Category.objects.exclude(pk=self.pk).filter(name=self.name).exists():
-            raise ValidationError("A category with this name already exists.")
+            raise ValidationError("Tên danh mục đã tồn tại.")
 
     class Meta:
         db_table = 'categories'

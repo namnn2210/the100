@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Detail</title>
+</head>
+<body>
+    <h1>Supplier Detail</h1>
+    <p><strong>Name:</strong> {{ supplier.name }}</p>
+    <p><strong>Status:</strong> {% if supplier.status %}Active{% else %}Inactive{% endif %}</p>
+    <p><strong>Created At:</strong> {{ supplier.created_at }}</p>
+    <p><strong>Updated At:</strong> {{ supplier.updated_at }}</p>
+</body>
+</html>

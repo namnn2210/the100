@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category Detail</title>
+    <title>Danh mục</title>
 </head>
 <body>
-    <h1>Category Detail</h1>
-    <p><strong>Name:</strong> {{ category.name }}</p>
-    <p><strong>Status:</strong> {% if category.status %}Active{% else %}Inactive{% endif %}</p>
-    <p><strong>Created At:</strong> {{ category.created_at }}</p>
-    <p><strong>Updated At:</strong> {{ category.updated_at }}</p>
+    <h1>Category Detail {{ category.name }}</h1>
+    <p><strong>Trạng thái:</strong> {% if category.status %}Active{% else %}Inactive{% endif %}</p>
+    <p><strong>Thgian tạo:</strong> {{ category.created_at }}</p>
+    <p><strong>Thgian cập nhật:</strong> {{ category.updated_at }}</p>
 </body>
 </html>
