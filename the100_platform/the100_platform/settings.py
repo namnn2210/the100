@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'tinymce',
     'shopee',
     'custom_admin',
+    'widget_tweaks',
     'rest_framework'
 ]
 
@@ -90,8 +91,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'the100',
         'USER': 'root',
-        'PASSWORD': 'ngocnam2210',
-        'HOST': '103.241.43.112',  # Change this if your MySQL server is on a different host
+        'PASSWORD': 'long1234',
+        'HOST': '127.0.0.1',  # Change this if your MySQL server is on a different host
         'PORT': '3306',
     }
 }
@@ -178,3 +179,5 @@ LIST_ITEM_LIMIT = '/api/v2/product/get_item_limit'
 LIST_CHANNEL = '/api/v2/logistics/get_channel_list'
 # SHOP_AUTH_REDIRECT_URL = "https://the100.vn/authentication/account"
 SHOP_AUTH_REDIRECT_URL = "http://127.0.0.1:8000/authentication/account"
+
+

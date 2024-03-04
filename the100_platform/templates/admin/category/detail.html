@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh mục</title>
+</head>
+<body>
+    <h1>Category Detail {{ category.name }}</h1>
+    <p><strong>Trạng thái:</strong> {% if category.status %}Active{% else %}Inactive{% endif %}</p>
+    <p><strong>Thgian tạo:</strong> {{ category.created_at }}</p>
+    <p><strong>Thgian cập nhật:</strong> {{ category.updated_at }}</p>
+</body>
+</html>

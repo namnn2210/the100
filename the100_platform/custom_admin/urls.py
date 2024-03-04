@@ -5,8 +5,9 @@ urlpatterns = [
     path('', admin_index, name='admin_index'),
 
     # Category
-    path('category/list/', list_category, name='list_category'),
-    path('category/children/', get_children, name='get_children'),
+    path('category/', list_category, name='list_category'),
+    # path('category/list/', list_category, name='list_category'),
+    # path('category/children/', get_children, name='get_children'),
 
     # Product
     path('product/add/', add_product, name='add_product'),

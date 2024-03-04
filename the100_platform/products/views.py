@@ -45,3 +45,9 @@ def product_detail(request, product_id):
     product_dict['category'] = category.name
     print(product_dict)
     return render(request=request, template_name='shop-product-detail.html', context={'product': product_dict})
+
+# def product_add(request):
+#     if request.method == "POST":
+#         form = ProductForm(request.POST)
+#         if form.is_valid():
+
