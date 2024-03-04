@@ -155,6 +155,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://the100.vn'
 ]
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 TINYMCE_DEFAULT_CONFIG = {
     'height': 360,
     'width': 800,
